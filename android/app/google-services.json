@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "312137077781",
+    "project_id": "the-learning-castle",
+    "storage_bucket": "the-learning-castle.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:312137077781:android:04ba1fa47e9ce0062a6a1c",
+        "android_client_info": {
+          "package_name": "com.example.the_learning_castle_v2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "312137077781-vbnpb58v7gfi3b5f0bh952tambid3pq2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDb59OVcoZk1M9SNu-1uv9T5vdkAqvq7ho"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "312137077781-vbnpb58v7gfi3b5f0bh952tambid3pq2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:312137077781:android:917403b24711ffd42a6a1c",
+        "android_client_info": {
+          "package_name": "com.hassan.tlc_the_learning_castle"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "312137077781-vbnpb58v7gfi3b5f0bh952tambid3pq2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDb59OVcoZk1M9SNu-1uv9T5vdkAqvq7ho"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "312137077781-vbnpb58v7gfi3b5f0bh952tambid3pq2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
