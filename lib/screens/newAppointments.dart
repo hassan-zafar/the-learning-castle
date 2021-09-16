@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:the_learning_castle_v2/config/colllections.dart';
 import 'package:the_learning_castle_v2/constants.dart';
 import 'package:the_learning_castle_v2/screens/auth/widgets/sign_in_up_bar.dart';
-import 'package:the_learning_castle_v2/screens/homepage.dart';
 import 'package:uuid/uuid.dart';
 
 class NewAppointments extends StatefulWidget {
@@ -168,9 +167,8 @@ class _NewAppointmentsState extends State<NewAppointments> {
     DateTime? endingTime,
   }) {
     timestamp = DateTime.now();
-    //TODO:userUID lgani h yahan p
     appointmentsRef
-        .doc(userUid)
+        .doc(currentUser!.id)
         .collection("userAppointments")
         .doc(appointmentId)
         .set({

@@ -1,24 +1,51 @@
 import 'dart:convert';
 import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:the_learning_castle_v2/config/colllections.dart';
-import 'package:the_learning_castle_v2/config/palette.dart';
 import 'package:the_learning_castle_v2/constants.dart';
 import 'package:the_learning_castle_v2/database/local_database.dart';
 import 'package:the_learning_castle_v2/models/users.dart';
-import 'package:the_learning_castle_v2/screens/auth/auth.dart';
-import 'package:the_learning_castle_v2/screens/homepage.dart';
+import 'package:the_learning_castle_v2/screens/landingPage.dart';
 import 'package:the_learning_castle_v2/screens/loginRelated/login.dart';
+
+const AndroidNotificationChannel channel = AndroidNotificationChannel(
+  "high_importance_channel",
+  "High Importance Notifications",
+  "This channel is used for important notifications",
+  importance: Importance.high,
+  playSound: true,
+);
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+}
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await GetStorage.init();
   await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
   runApp(MyApp());
 }
 
@@ -37,8 +64,9 @@ class MyApp extends StatelessWidget {
     }
 
     isAdmin = UserLocalData().getIsAdmin();
+    isTeacher = currentUser!.isTeacher;
     return GetMaterialApp(
-      title: 'The Learning Castle',
+      title: 'TLC International',
       builder: BotToastInit(),
       navigatorObservers: [BotToastNavigatorObserver()],
       theme: ThemeData(
@@ -62,7 +90,7 @@ class MyApp extends StatelessWidget {
         backgroundColor: Colors.white,
         //Color(0xff387A53),
 
-        nextScreen: currentUser != null ? HomePage() : LoginPage(),
+        nextScreen: currentUser != null ? LandingPage() : LoginPage(),
         duration: 1,
         splashTransition: SplashTransition.fadeTransition,
       ),

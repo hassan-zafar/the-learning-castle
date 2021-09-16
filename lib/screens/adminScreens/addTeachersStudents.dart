@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
-import 'package:the_learning_castle_v2/screens/homepage.dart';
+import 'package:the_learning_castle_v2/database/database.dart';
 import 'package:the_learning_castle_v2/services/authentication_service.dart';
 import 'package:the_learning_castle_v2/tools/custom_toast.dart';
 import 'package:the_learning_castle_v2/tools/loading.dart';
@@ -44,7 +44,14 @@ class _EmailSignUpState extends State<AddStudentTeacher> {
 
   bool _isTeacher = true;
   bool _isLoading = false;
+  var _branchName = '';
+  var _className = '';
+  String? _classValue;
+  String? _branchValue;
+  final TextEditingController _branchController = TextEditingController();
+  final TextEditingController _gradesController = TextEditingController();
 
+  final TextEditingController _classNameController = TextEditingController();
   // getUserEditInfo() {
   //   _firstNameController.text = currentUser.fname;
   //   _emailController.text = currentUser.email;
@@ -53,10 +60,32 @@ class _EmailSignUpState extends State<AddStudentTeacher> {
   //   _passwordController.text = currentUser.password;
   // }
 
+  List<DropdownMenuItem<String>> allBranches = [];
+  List<DropdownMenuItem<String>> allClasses = [
+    DropdownMenuItem<String>(
+      child: Text('PlayGroup'),
+      value: 'PlayGroup',
+    ),
+    DropdownMenuItem<String>(
+      child: Text('Preschool'),
+      value: 'Preschool',
+    ),
+    DropdownMenuItem<String>(
+      child: Text('pre-kg'),
+      value: 'pre-kg',
+    ),
+    DropdownMenuItem<String>(
+      child: Text('kg1'),
+      value: 'kg1',
+    ),
+    DropdownMenuItem<String>(
+      child: Text('kg2'),
+      value: 'kg2',
+    ),
+  ];
   @override
   void initState() {
     super.initState();
-    // widget.isEdit ? getUserEditInfo() : null;
   }
 
   @override
@@ -103,11 +132,11 @@ class _EmailSignUpState extends State<AddStudentTeacher> {
                                   child: Row(
                                     children: [
                                       Expanded(
-                                        flex: 2,
+                                        flex: 3,
                                         child: Text("Teacher Or Student"),
                                       ),
                                       Expanded(
-                                          flex: 1,
+                                          flex: 2,
                                           child: teacherStudentPicker(
                                               controller: yesNoController1)),
                                     ],
@@ -117,6 +146,86 @@ class _EmailSignUpState extends State<AddStudentTeacher> {
                             ),
                           ),
                         ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              // flex: 3,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 9),
+                                child: GestureDetector(
+                                  onTap: () => branchClassNameCreator(
+                                      controller: _branchController,
+                                      context: context,
+                                      isClass: false,
+                                      hintText: "Enter Branch Name",
+                                      labelText: "Branch Name"),
+                                  child: GlassContainer(
+                                    opacity: 0.3,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(14.0),
+                                      child: Text("Add New Branch"),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            DropdownButton<String>(
+                              items: allBranches,
+                              onChanged: (String? value) {
+                                setState(() {
+                                  _branchValue = value;
+                                  _branchController.text = value!;
+                                  //_controller.text= _branchName;
+                                  print(_branchName);
+                                });
+                              },
+                              hint: Text('Select a Branch'),
+                              value: _branchValue,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 10),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 9),
+                                child: GestureDetector(
+                                  onTap: () => branchClassNameCreator(
+                                      controller: _classNameController,
+                                      context: context,
+                                      isClass: true,
+                                      hintText: "Enter Class Name",
+                                      labelText: "Class Name"),
+                                  child: GlassContainer(
+                                    opacity: 0.3,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(14.0),
+                                      child: Text("Add New Class"),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            DropdownButton<String>(
+                              items: allClasses,
+                              onChanged: (String? value) {
+                                setState(() {
+                                  _classValue = value;
+                                  _classNameController.text = value!;
+                                  print(_className);
+                                });
+                              },
+                              hint: Text('Select a class'),
+                              value: _classValue,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 15),
 
 //Name
                         TextInputCard(
@@ -149,13 +258,13 @@ class _EmailSignUpState extends State<AddStudentTeacher> {
                               : "Roll No Too Short",
                           validationStringLength: 3,
                         ),
-//Section
+//rades
                         TextInputCard(
-                          controller: _sectionController,
-                          label: "Add Section to be appointed",
-                          hintText: "Please add section to be appointed",
-                          validatorErrorText: "Section Name Too Short",
-                          validationStringLength: 2,
+                          controller: _gradesController,
+                          label: "Add Student's Grade",
+                          hintText: "If new student assign 'N'",
+                          validatorErrorText: "Grade Invalid",
+                          validationStringLength: 1,
                         ),
 //Email
                         Padding(
@@ -298,11 +407,104 @@ class _EmailSignUpState extends State<AddStudentTeacher> {
     );
   }
 
+  branchClassNameCreator(
+      {required BuildContext context,
+      required String labelText,
+      required String hintText,
+      required bool isClass,
+      required TextEditingController controller}) async {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return SingleChildScrollView(
+            child: StatefulBuilder(builder: (context, setState) {
+              return Dialog(
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "Create $labelText",
+                          style: titleTextStyle(),
+                        ),
+                      ),
+                      TextField(
+                        controller: controller,
+                        decoration: InputDecoration(
+                            labelText: labelText, hintText: hintText),
+                      ),
+                      ElevatedButton(
+                          onPressed: () async {
+                            if (isClass) {
+                              bool contains = false;
+
+                              if (controller.text.isNotEmpty) {
+                                for (int index = 0;
+                                    index < allClasses.length;
+                                    index++) {
+                                  contains = allClasses[index].value ==
+                                      controller.text;
+                                }
+                                if (contains) {
+                                  showToast(message: "Already Exists");
+                                } else {
+                                  allClasses.add(DropdownMenuItem<String>(
+                                    child: Text(controller.text),
+                                    value: controller.text,
+                                  ));
+                                }
+                              } else {
+                                showToast(message: "Should not be left empty");
+                              }
+                            } else {
+                              bool contains = false;
+
+                              if (controller.text.isNotEmpty) {
+                                for (int index = 0;
+                                    index < allBranches.length;
+                                    index++) {
+                                  contains = allBranches[index].value ==
+                                      controller.text;
+                                }
+                                if (contains) {
+                                  showToast(message: "Already Exists");
+                                } else {
+                                  allBranches.add(DropdownMenuItem<String>(
+                                    child: Text(controller.text),
+                                    value: controller.text,
+                                  ));
+                                }
+                              } else {
+                                showToast(message: "Should not be left empty");
+                              }
+                            }
+
+                            Navigator.pop(context);
+                          },
+                          child: Row(
+                            children: [
+                              Icon(Icons.school),
+                              Text("Add $labelText"),
+                            ],
+                          ))
+                    ],
+                  ),
+                ),
+              );
+            }),
+          );
+        }).then((value) {
+      setState(() {});
+    });
+  }
+
   Container teacherStudentPicker({
     final controller,
   }) {
     return Container(
-      // width: 100,
+      // width: 200,
       height: 80,
       child: CupertinoPicker(
         selectionOverlay: null,
@@ -322,15 +524,15 @@ class _EmailSignUpState extends State<AddStudentTeacher> {
         children: [
           Text(
             "Teacher",
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 15),
           ),
           Text(
             "Student/Parent",
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(fontSize: 15),
           )
         ],
-        useMagnifier: true,
-        magnification: 1.3,
+        useMagnifier: true, diameterRatio: 1,
+        magnification: 1.1,
       ),
     );
   }
@@ -346,19 +548,22 @@ class _EmailSignUpState extends State<AddStudentTeacher> {
       });
       AuthenticationService()
           .addNewUser(
-        isTeacher: _isTeacher,
-        email: _emailController.text,
-        firstName: _firstNameController.text,
-        lastName: _lastNameController.text,
-        password: _passwordController.text,
-        phoneNo: _phoneNoController.text,
-        userName: _userNameController.text,
-        timestamp: Timestamp.now().toString(),
-        section: _sectionController.text,
-        rollNo: _userNameController.text,
-      )
+              isTeacher: _isTeacher,
+              email: _emailController.text,
+              firstName: _firstNameController.text,
+              lastName: _lastNameController.text,
+              password: _passwordController.text,
+              phoneNo: _phoneNoController.text,
+              userName: _userNameController.text,
+              timestamp: Timestamp.now().toString(),
+              section: _sectionController.text,
+              rollNo: _userNameController.text,
+              branch: _branchController.text,
+              grades: _gradesController.text,
+              className: _classNameController.text)
           .then((value) {
         String? userAddedType;
+      
         _isTeacher ? userAddedType = "Teacher" : userAddedType = "Student";
         showToast(message: "New $userAddedType has been Added");
         Get.back();

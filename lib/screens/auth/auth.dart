@@ -1,7 +1,6 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:the_learning_castle_v2/screens/auth/widgets/register.dart';
 import 'package:the_learning_castle_v2/screens/auth/widgets/sign_in.dart';
 import 'widgets/background_painter.dart';
 

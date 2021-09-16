@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:the_learning_castle_v2/config/colllections.dart';
 import 'package:the_learning_castle_v2/database/database.dart';
 import 'package:the_learning_castle_v2/screens/auth/widgets/decoration_functions.dart';
-import 'package:the_learning_castle_v2/screens/homepage.dart';
+import 'package:the_learning_castle_v2/screens/landingPage.dart';
 import 'package:the_learning_castle_v2/services/authentication_service.dart';
 import 'package:the_learning_castle_v2/tools/custom_toast.dart';
 import 'package:the_learning_castle_v2/tools/loading.dart';
@@ -237,7 +237,7 @@ class _LoginPageState extends State<LoginPage> {
           .fetchUserInfoFromFirebase(uid: userId)
           .then((value) => setState(() {
                 _isLoading = false;
-                Get.off(() => HomePage());
+                Get.off(() => LandingPage());
               }));
 
       //   break;

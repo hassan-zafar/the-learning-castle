@@ -43,9 +43,14 @@ dependencies:
   firebase_core:
   flutter_svg:
   timeago:
+  image:
+  # neuomorphic_container:
   auto_size_text_pk: ^3.0.0
   google_fonts:
   table_calendar:
+  firebase_messaging:
+  flutter_local_notifications:
+  webview_flutter:
   group_button: ^3.1.0 #latest version
 
   # The following adds the Cupertino Icons font to your application.

@@ -1,9 +1,10 @@
 import 'package:bot_toast/bot_toast.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:the_learning_castle_v2/config/colllections.dart';
+import 'package:the_learning_castle_v2/constants.dart';
 import 'package:the_learning_castle_v2/models/users.dart';
+import 'package:the_learning_castle_v2/services/notificationHandler.dart';
 import 'package:the_learning_castle_v2/tools/loading.dart';
 // import 'package:timeago/timeago.dart' as timeago;
 import 'package:uuid/uuid.dart';
@@ -108,13 +109,20 @@ class CommentsNChatState extends State<CommentsNChat> {
           .set({
         "userName": currentUser!.userName,
         "userId": currentUser!.id,
-        // "androidNotificationToken": currentUser.androidNotificationToken,
+        "androidNotificationToken": currentUser!.androidNotificationToken,
         "comment": _commentNMessagesController.text,
         "timestamp": DateTime.now(),
         "avatarUrl": currentUser!.photoUrl,
         "commentId": commentId,
       });
-
+      chatListRef.doc(isAdmin! ? widget.chatId : currentUser!.id).set({
+        "userName": currentUser!.userName,
+        "userId": currentUser!.id,
+        "comment": _commentNMessagesController.text,
+        "timestamp": DateTime.now(),
+        "androidNotificationToken": widget.chatNotificationToken ??
+            currentUser!.androidNotificationToken,
+      });
       // sendNotificationToAdmin(
       //     type: "adminChats", title: "Admin Chats", isAdminChat: true);
       // if (isAdmin) {
@@ -128,10 +136,11 @@ class CommentsNChatState extends State<CommentsNChat> {
       //     "mediaUrl": postMediaUrl,
       //     "timestamp": timestamp,
       //   });
-      //   sendAndRetrieveMessage(
-      //       token: widget.chatNotificationToken,
-      //       message: _commentNMessagesController.text,
-      //       title: "Admin Chats");
+      sendAndRetrieveMessage(
+          token: widget.chatNotificationToken!,
+          message: _commentNMessagesController.text,
+          title: "Admin Chats",
+          context: context);
       // }
 
     } else {
@@ -142,38 +151,46 @@ class CommentsNChatState extends State<CommentsNChat> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text("Contact Admin"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(bottom: 20.0),
-        child: Column(
-          children: <Widget>[
-            Expanded(
-              child: buildChat(),
-            ),
-            Divider(),
-            ListTile(
-              title: TextFormField(
-                controller: _commentNMessagesController,
-                decoration: InputDecoration(
-                  hintText: "Write admin a message...",
+    return Container(
+      decoration: backgroundColorBoxDecoration(),
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          title: Text(
+            "Contact Admin",
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.only(bottom: 20.0),
+          child: Column(
+            children: <Widget>[
+              Expanded(
+                child: buildChat(),
+              ),
+              Divider(),
+              ListTile(
+                title: TextFormField(
+                  controller: _commentNMessagesController,
+                  decoration: InputDecoration(
+                    hintText: "Write a message...",
+                  ),
+                ),
+                trailing: IconButton(
+                  onPressed: addChatMessage,
+                  icon: Icon(
+                    Icons.send,
+                    size: 40.0,
+                  ),
                 ),
               ),
-              trailing: IconButton(
-                onPressed: addChatMessage,
-                icon: Icon(
-                  Icons.send,
-                  size: 40.0,
-                ),
+              SizedBox(
+                height: 50,
               ),
-            ),
-            SizedBox(
-              height: 50,
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

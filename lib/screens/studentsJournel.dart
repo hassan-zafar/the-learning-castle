@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:group_button/group_button.dart';
-import 'package:syncfusion_flutter_calendar/calendar.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:the_learning_castle_v2/config/colllections.dart';
 import 'package:the_learning_castle_v2/constants.dart';
 import 'package:the_learning_castle_v2/database/database.dart';
 import 'package:the_learning_castle_v2/models/studentJournelModel.dart';
+import 'package:the_learning_castle_v2/screens/adminScreens/commentsNChat.dart';
 import 'package:the_learning_castle_v2/tools/custom_toast.dart';
 import 'package:the_learning_castle_v2/tools/loading.dart';
 import 'package:get/get.dart';
@@ -37,6 +37,10 @@ class _StudentJournelState extends State<StudentJournel> {
   StudentJournelModel? studentJournelEntry;
 
   bool _isLoading = false;
+
+  TimeOfDay? sleepingTime;
+
+  TextEditingController _sleepTimeController = TextEditingController();
   @override
   void initState() {
     super.initState();
@@ -140,6 +144,21 @@ class _StudentJournelState extends State<StudentJournel> {
           ],
           centerTitle: true,
           elevation: 4,
+        ),
+        floatingActionButton: InkWell(
+          onTap: () => Get.to(() => CommentsNChat(
+                chatId: widget.studentId,
+              )),
+          child: GlassContainer(
+            width: 120,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [Text("Send Msg"), Icon(Icons.chat_bubble)],
+              ),
+            ),
+          ),
         ),
         // backgroundColor: Colors.white,
         body: SafeArea(
@@ -436,6 +455,70 @@ class _StudentJournelState extends State<StudentJournel> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
+                              'I Slept',
+                              style: titleTextStyle(fontSize: 20),
+                            ),
+                          ),
+                          Padding(
+                              padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                              child:
+                                  // (currentUser!.isTeacher! ||
+                                  //         currentUser!.isAdmin!)
+                                  //     ?
+                                  Container(
+                                // height: 200,
+                                // width: 200,
+                                child: Row(
+                                  children: [
+                                    Text("When:"),
+                                    ElevatedButton(
+                                      style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all<Color>(
+                                                  Colors.black12)),
+                                      onPressed: () async {
+                                        TimeOfDay? sleepingTimeTemp =
+                                            await showTimePicker(
+                                                context: context,
+                                                initialTime: TimeOfDay.now(),
+                                                helpText: "Sleeping Time");
+                                        setState(() {
+                                          this.sleepingTime = sleepingTimeTemp!;
+                                        });
+                                        print(sleepingTime);
+                                      },
+                                      child: Text(sleepingTime == null
+                                          ? "Sleeping Time"
+                                          : sleepingTime!.format(context)),
+                                    ),
+                                    Text("How Long:"),
+                                    Expanded(
+                                        child: TextField(
+                                      controller: _sleepTimeController,
+                                      keyboardType: TextInputType.datetime,
+                                    )),
+                                  ],
+                                ),
+                              )
+
+                              // : Container(),
+                              )
+                        ],
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                    child: GlassContainer(
+                      shadowStrength: 6,
+                      opacity: 0.3,
+                      height: 150,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
                               'Notes',
                               style: titleTextStyle(fontSize: 20),
                             ),
@@ -443,8 +526,9 @@ class _StudentJournelState extends State<StudentJournel> {
                           Padding(
                             padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
                             child: (currentUser!.isTeacher! ||
-                                        currentUser!.isAdmin!) &&
-                                    studentJournelEntry!.journelNotes != null
+                                    currentUser!.isAdmin!)
+                                //      &&
+                                // studentJournelEntry! != null
                                 ? TextFormField(
                                     controller: _notesController,
                                     obscureText: false,

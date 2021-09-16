@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-String logo = "assets/images/logo.jpg";
+String logo = "assets/images/logo.png";
 String logoBackground = "assets/images/logoBackground.jpeg";
 String loginIcon = "assets/images/logIn.svg";
+String logOutIcon = "assets/images/logOut.svg";
 String signUp = "assets/images/signUp.svg";
 String googleLogo = "assets/images/google.png";
 String facebookLogo = "assets/images/facebook.png";
@@ -11,6 +12,7 @@ String forgetPassPageIcon = "assets/images/MaskGroup1.png";
 String appointmentLottie = "assets/lottie/appointment-booking.json";
 String videoLottie = "assets/lottie/video-design.json";
 String userDetailsLottie = "assets/lottie/userDetails.json";
+String aboutUsIcon = "assets/images/aboutUs.png";
 
 TextStyle titleTextStyle({double fontSize = 25, Color color = Colors.black}) {
   return TextStyle(
@@ -77,6 +79,7 @@ BoxDecoration backgroundColorBoxDecoration() {
     ),
   );
 }
+
 TextStyle customTextStyle(
     {FontWeight fontWeight = FontWeight.w300,
     double fontSize = 25,
@@ -87,6 +90,7 @@ TextStyle customTextStyle(
       color: color,
       letterSpacing: 3);
 }
+
 BoxDecoration drawerColorBoxDecoration() {
   return BoxDecoration(
     gradient: LinearGradient(

@@ -8,7 +8,6 @@ import 'package:the_learning_castle_v2/constants.dart';
 import 'package:the_learning_castle_v2/models/users.dart';
 import 'package:the_learning_castle_v2/screens/adminScreens/addTeachersStudents.dart';
 import 'package:the_learning_castle_v2/screens/adminScreens/userDetailsPage.dart';
-import 'package:the_learning_castle_v2/screens/auth/auth.dart';
 import 'package:the_learning_castle_v2/screens/loginRelated/login.dart';
 import 'package:the_learning_castle_v2/screens/studentsJournel.dart';
 import 'package:the_learning_castle_v2/services/authentication_service.dart';
@@ -112,6 +111,8 @@ class _UserNSearchState extends State<UserNSearch>
               }
               List<UserResult> userResults = [];
               List<UserResult> allAdmins = [];
+              List<UserResult> allTeachers = [];
+              List<UserResult> allStudents = [];
 
               snapshot.data!.docs.forEach((doc) {
                 AppUserModel user = AppUserModel.fromDocument(doc);
@@ -124,93 +125,155 @@ class _UserNSearchState extends State<UserNSearch>
                   UserResult userResult = UserResult(user);
                   userResults.add(userResult);
                 }
+                if (user.isTeacher!) {
+                  UserResult teacherResult = UserResult(user);
+                  allTeachers.add(teacherResult);
+                } else if (!user.isAdmin!) {
+                  UserResult studentResult = UserResult(user);
+                  allStudents.add(studentResult);
+                }
               });
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GlassContainer(
-                  child: ListView(
-                    physics: BouncingScrollPhysics(),
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            typeSelected = "users";
-                          });
-                        },
-                        child: Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Row(
-                            children: [
-                              GlassContainer(
-                                opacity: 0.7,
-                                shadowStrength: 8,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: <Widget>[
-                                      Text(
-                                        "${userResults.length}",
-                                        style: TextStyle(fontSize: 20.0),
-                                      ),
-                                      Icon(
-                                        Icons.person_outline,
-                                        size: 20.0,
-                                      ),
-                                      SizedBox(
-                                        width: 8.0,
-                                      ),
-                                      Text(
-                                        "Total Users",
-                                        style: TextStyle(fontSize: 20.0),
-                                      ),
-                                    ],
+              return GlassContainer(
+                child: ListView(
+                  physics: BouncingScrollPhysics(),
+                  children: <Widget>[
+                    Container(
+                      height: 100,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        typeSelected = "users";
+                                      });
+                                    },
+                                    child: GlassContainer(
+                                        opacity: 0.7,
+                                        shadowStrength: 8,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "All Users ${userResults.length}",
+                                            style: TextStyle(fontSize: 20.0),
+                                          ),
+                                        )),
                                   ),
                                 ),
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.all(8),
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          typeSelected = "admin";
-                                        });
-                                      },
-                                      child: GlassContainer(
-                                          opacity: 0.7,
-                                          shadowStrength: 8,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Text(
-                                              "All Admins ${allAdmins.length}",
-                                              style: TextStyle(fontSize: 20.0),
-                                            ),
-                                          )),
-                                    ),
+                              ],
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        typeSelected = "admin";
+                                      });
+                                    },
+                                    child: GlassContainer(
+                                        opacity: 0.7,
+                                        shadowStrength: 8,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "All Admins ${allAdmins.length}",
+                                            style: TextStyle(fontSize: 20.0),
+                                          ),
+                                        )),
                                   ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        typeSelected = "teachers";
+                                      });
+                                    },
+                                    child: GlassContainer(
+                                        opacity: 0.7,
+                                        shadowStrength: 8,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "Teachers ${allTeachers.length}",
+                                            style: TextStyle(fontSize: 20.0),
+                                          ),
+                                        )),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.all(8),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        typeSelected = "students";
+                                      });
+                                    },
+                                    child: GlassContainer(
+                                        opacity: 0.7,
+                                        shadowStrength: 8,
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Text(
+                                            "Students ${allStudents.length}",
+                                            style: TextStyle(fontSize: 20.0),
+                                          ),
+                                        )),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      typeSelected == 'admin'
-                          ? Column(
-                              children: allAdmins,
-                            )
-                          : Text(""),
-                      typeSelected == 'users'
-                          ? Column(
-                              children: userResults,
-                            )
-                          : Text(''),
-                    ],
-                  ),
+                    ),
+                    typeSelected == 'admin'
+                        ? Column(
+                            children: allAdmins,
+                          )
+                        : Text(""),
+                    typeSelected == 'users'
+                        ? Column(
+                            children: userResults,
+                          )
+                        : Text(''),
+                    typeSelected == 'teachers'
+                        ? Column(
+                            children: allTeachers,
+                          )
+                        : Text(''),
+                    typeSelected == 'students'
+                        ? Column(
+                            children: allStudents,
+                          )
+                        : Text(''),
+                  ],
                 ),
               );
             }),
@@ -250,7 +313,7 @@ class UserResult extends StatelessWidget {
           GestureDetector(
             onLongPress: () => makeAdmin(context),
             onTap: () {
-              currentUser!.isAdmin! && !currentUser!.isTeacher!
+              currentUser!.isAdmin!
                   ? Get.to(() => UserDetailsPage(
                         userDetails: user,
                       ))
@@ -293,7 +356,7 @@ class UserResult extends StatelessWidget {
         builder: (context) {
           return SimpleDialog(
             children: <Widget>[
-              user.isAdmin! && user.id != userUid
+              user.isAdmin! && user.id != currentUser!.id
                   ? SimpleDialogOption(
                       onPressed: () {
                         Navigator.pop(context);

@@ -1,5 +1,5 @@
-
 import 'package:get_storage/get_storage.dart';
+
 class UserLocalData {
   String s = 'sd';
   final getStorageProference = GetStorage();
@@ -14,10 +14,13 @@ class UserLocalData {
   final _isLoggedIn = "ISLOGGEDIN";
   final _emailKey = 'EMAILKEY';
   final _userNameKey = 'USERNAMEKEY';
-  final _phoneNumberKey = 'PhoneNumber';
-  final _imageUrlKey = 'IMAGEURLKEY';
-  final _password = 'PASSWORD';
+  // final _phoneNumberKey = 'PhoneNumber';
+  // final _imageUrlKey = 'IMAGEURLKEY';
+  // final _password = 'PASSWORD';
   final _isAdmin = 'ISADMIN';
+  final _token = 'TOKEN';
+  final _branches = 'BRANCHES';
+  final _classes = 'CLASSES';
 
   //
   // Setters
@@ -29,6 +32,13 @@ class UserLocalData {
       getStorageProference.write(_emailKey, email);
   Future setUserName(String? userName) async =>
       getStorageProference.write(_userNameKey, userName);
+  Future setToken(String token) async =>
+      getStorageProference.write(_token, token);
+
+  Future setBranches(String branches) async =>
+      getStorageProference.write(_branches, branches);
+  Future setClasses(String classes) async =>
+      getStorageProference.write(_classes, classes);
 
   Future setIsAdmin(bool? isAdmin) async =>
       getStorageProference.write(_isAdmin, isAdmin);
@@ -47,6 +57,8 @@ class UserLocalData {
   //
   bool? getIsAdmin() => getStorageProference.read(_isAdmin);
   String getUserData() => getStorageProference.read(_userModelString) ?? '';
+  String getBranches() => getStorageProference.read(_branches) ?? "";
+  String getClasses() => getStorageProference.read(_classes) ?? "";
 
   String getUserUIDGet() => getStorageProference.read(_uidKey) ?? '';
   bool? isLoggedIn() => getStorageProference.read(_uidKey);

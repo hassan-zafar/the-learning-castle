@@ -42,7 +42,6 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     pageController = PageController();
-    print(userUid);
     print(userName);
   }
 

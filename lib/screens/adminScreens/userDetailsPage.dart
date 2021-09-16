@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +7,9 @@ import 'package:the_learning_castle_v2/config/colllections.dart';
 import 'package:the_learning_castle_v2/constants.dart';
 import 'package:the_learning_castle_v2/models/feeModel.dart';
 import 'package:the_learning_castle_v2/models/users.dart';
-import 'package:the_learning_castle_v2/screens/auth/auth.dart';
+import 'package:the_learning_castle_v2/screens/loginRelated/login.dart';
 import 'package:the_learning_castle_v2/services/authentication_service.dart';
+import 'package:the_learning_castle_v2/tools/loading.dart';
 
 class UserDetailsPage extends StatefulWidget {
   final AppUserModel userDetails;
@@ -29,7 +29,6 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
   bool _isLoading = false;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _titleController = TextEditingController();
     _pendingFeeController = TextEditingController();
@@ -67,20 +66,22 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
             : FloatingActionButton(
                 onPressed: () {
                   AuthenticationService().signOut();
-                  Get.off(() => AuthScreen());
+                  Get.off(() => LoginPage());
                 },
                 child: Text("Logout"),
               ),
-        body: ListView(
-          shrinkWrap: true,
-          children: [
-            Lottie.asset(userDetailsLottie, height: 150, repeat: false),
-            wrappingContainer(buildUserDetails()),
-            !widget.userDetails.isTeacher! && !widget.userDetails.isAdmin!
-                ? wrappingContainer(buildFeeInfo())
-                : Container(),
-          ],
-        ),
+        body: _isLoading
+            ? LoadingIndicator()
+            : ListView(
+                shrinkWrap: true,
+                children: [
+                  Lottie.asset(userDetailsLottie, height: 150, repeat: false),
+                  wrappingContainer(buildUserDetails()),
+                  widget.userDetails.isTeacher! || widget.userDetails.isAdmin!
+                      ? Container()
+                      : wrappingContainer(buildFeeInfo()),
+                ],
+              ),
       ),
     );
   }
@@ -216,7 +217,9 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
   }
 
   Widget buildFeeInfo() {
+    print(widget.userDetails.isAdmin);
     print(feeDetails);
+
     DateTime? lastDate = feeDetails!.lastDate!.toDate();
     return _isLoading
         ? Text(
@@ -310,7 +313,8 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
           SizedBox(
             height: 8.0,
           ),
-          rowText(fieldName: "Phone No", result: widget.userDetails.phoneNo!),
+          rowText(
+              fieldName: "Phone No", result: "${widget.userDetails.phoneNo!}"),
           SizedBox(
             height: 8.0,
           ),

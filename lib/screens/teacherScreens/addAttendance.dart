@@ -9,8 +9,6 @@ import 'package:the_learning_castle_v2/constants.dart';
 import 'package:the_learning_castle_v2/database/database.dart';
 import 'package:the_learning_castle_v2/models/attendanceModel.dart';
 import 'package:the_learning_castle_v2/models/users.dart';
-import 'package:the_learning_castle_v2/screens/homepage.dart';
-import 'package:get/get.dart';
 
 class AttendancePage extends StatefulWidget {
   @override
@@ -112,230 +110,217 @@ class _AttendancePageState extends State<AttendancePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: scaffoldKey,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        automaticallyImplyLeading: true,
-        title: Text(
-          'Attendance',
-        ),
-        actions: [],
-        centerTitle: true,
-        elevation: 4,
-      ),
-      body: SafeArea(
-          child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          TableCalendar(
-            firstDay: DateTime.utc(2010, 10, 16),
-            lastDay: DateTime.utc(2030, 3, 14),
-            focusedDay: _focusedDay!,
-            currentDay: DateTime.now(),
-            selectedDayPredicate: (day) {
-              return isSameDay(_selectedDay, day);
-            },
-            onDaySelected: (selectedDay, focusedDay) {
-              setState(() {
-                _selectedDay = selectedDay;
-                _focusedDay = focusedDay;
-                _isLoading = true;
-              });
-
-              setState(() {
-                _isLoading = false;
-              });
-            },
-            onPageChanged: (focusedDay) {
-              setState(() {
-                _focusedDay = focusedDay;
-              });
-            },
-            calendarFormat: CalendarFormat.week,
+    return Container(
+      decoration: backgroundColorBoxDecoration(),
+      child: Scaffold(
+        key: scaffoldKey,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          automaticallyImplyLeading: true,
+          title: Text(
+            'Attendance',
           ),
-          Align(
-            alignment: Alignment(0, 0),
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _studentAttendence = StudentAttendence.Present;
-                        selectedStudentAttendance = allPresentStudents;
-                      });
-                    },
-                    child: Text("${allPresentStudents.length} Present"),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _studentAttendence = StudentAttendence.Absent;
-                        selectedStudentAttendance = allAbsentStudents;
-                      });
-                    },
-                    child: Text("${allAbsentStudents.length} Absent"),
-                  ),
-                ],
+          actions: [],
+          centerTitle: true,
+          elevation: 4,
+        ),
+        body: SafeArea(
+            child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            TableCalendar(
+              firstDay: DateTime.utc(2010, 10, 16),
+              lastDay: DateTime.utc(2030, 3, 14),
+              focusedDay: _focusedDay!,
+              currentDay: DateTime.now(),
+              selectedDayPredicate: (day) {
+                return isSameDay(_selectedDay, day);
+              },
+              onDaySelected: (selectedDay, focusedDay) {
+                setState(() {
+                  _selectedDay = selectedDay;
+                  _focusedDay = focusedDay;
+                  _isLoading = true;
+                });
+
+                setState(() {
+                  _isLoading = false;
+                });
+              },
+              onPageChanged: (focusedDay) {
+                setState(() {
+                  _focusedDay = focusedDay;
+                });
+              },
+              calendarFormat: CalendarFormat.week,
+            ),
+            Align(
+              alignment: Alignment(0, 0),
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _studentAttendence = StudentAttendence.Present;
+                          selectedStudentAttendance = allPresentStudents;
+                        });
+                      },
+                      child: Text("${allPresentStudents.length} Present"),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _studentAttendence = StudentAttendence.Absent;
+                          selectedStudentAttendance = allAbsentStudents;
+                        });
+                      },
+                      child: Text("${allAbsentStudents.length} Absent"),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemBuilder: (context, index) {
-                return StudentField(
-                    index: index,
-                    rollNo: selectedStudentAttendance[index].rollNo,
-                    userId: selectedStudentAttendance[index].id,
-                    isPresent: selectedStudentAttendance[index].isPresent,
-                    studentName: selectedStudentAttendance[index].name);
-              },
-              itemCount: selectedStudentAttendance.length,
-            ),
-          )
-        ],
-        // );
-        //   }
-        // ),
-        // ],
-      )),
+            Expanded(
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  // if (_studentAttendence == StudentAttendence.Absent) {
+                  //   allAttendanceData = allAbsentStudents;
+                  // } else {
+                  //   allAttendanceData = allPresentStudents;
+                  // }
+                  return studentField(
+                      index: index,
+                      isPresent: selectedStudentAttendance[index].isPresent!,
+                      rollNo: selectedStudentAttendance[index].rollNo!,
+                      studentName: selectedStudentAttendance[index].name!,
+                      userId: selectedStudentAttendance[index].id!);
+                },
+                itemCount: selectedStudentAttendance.length,
+              ),
+            )
+          ],
+          // );
+          //   }
+          // ),
+          // ],
+        )),
+      ),
     );
   }
-}
 
-class StudentField extends StatefulWidget {
-  final String? rollNo;
-  final String? studentName;
-  final String? userId;
-  final int? index;
-  final bool? isPresent;
-  StudentField(
-      {required this.rollNo,
-      required this.studentName,
-      required this.userId,
-      required this.index,
-      required this.isPresent});
-
-  @override
-  _StudentFieldState createState() => _StudentFieldState();
-}
-
-class _StudentFieldState extends State<StudentField> {
-  RxBool isPresent = false.obs;
-  @override
-  Widget build(BuildContext context) {
-    isPresent = widget.isPresent!.obs;
+  Padding studentField(
+      {required String rollNo,
+      required bool isPresent,
+      required String studentName,
+      required String userId,
+      required int index}) {
     return Padding(
       padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-      child: Obx(
-        () => GlassContainer(
-          width: double.infinity,
-          height: 100,
-          opacity: isPresent.value ? 1 : 0.2,
-          shadowStrength: 6,
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(10, 20, 20, 20),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  widget.rollNo.toString(),
+      child: GlassContainer(
+        width: double.infinity,
+        height: 100,
+        opacity: isPresent ? 1 : 0.2,
+        shadowStrength: 6,
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(10, 20, 20, 20),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                rollNo.toString(),
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
+                child: Text(
+                  studentName.toString(),
                 ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                  child: Text(
-                    widget.studentName.toString(),
-                  ),
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    isPresent.value
-                        ? Container()
-                        : IconButton(
-                            onPressed: () {
-                              AttendanceModel studentAttendance = AttendanceModel(
-                                  name: widget.studentName,
-                                  isPresent: true,
-                                  dateTime:
-                                      "${DateTime.now().day} : ${DateTime.now().month} : ${DateTime.now().year}",
-                                  id: widget.userId);
-                              DatabaseMethods()
-                                  .setAttendance(
-                                      dateTime: dateTimeScript,
-                                      isPresent: true,
-                                      name: widget.studentName,
-                                      userId: widget.userId,
-                                      userName: widget.rollNo)
-                                  .then((value) {
-                                // if (!widget.isPresent!) {
-                                setState(() {
-                                  allPresentStudents.add(studentAttendance);
-                                  allAbsentStudents.remove(widget.index);
-                                  selectedStudentAttendance
-                                      .remove(widget.index);
-                                });
-                                // }
-                              });
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  isPresent
+                      ? Container()
+                      : IconButton(
+                          onPressed: () {
+                            AttendanceModel studentAttendance = AttendanceModel(
+                                name: studentName,
+                                isPresent: true,
+                                dateTime:
+                                    "${DateTime.now().day} : ${DateTime.now().month} : ${DateTime.now().year}",
+                                id: userId);
+                            DatabaseMethods()
+                                .setAttendance(
+                                    dateTime: dateTimeScript,
+                                    isPresent: true,
+                                    name: studentName,
+                                    userId: userId,
+                                    userName: rollNo)
+                                .then((value) {
+                              // if (!widget.isPresent!) {
                               setState(() {
-                                isPresent = true.obs;
+                                getAllStudents();
+
+                                // allPresentStudents.add(studentAttendance);
+                                // allAbsentStudents.remove(index);
+                                // selectedStudentAttendance.remove(index);
+                                // isPresent = true;
                               });
-                            },
-                            icon: FaIcon(
-                              FontAwesomeIcons.check,
-                              color: Colors.black,
-                              size: 30,
-                            ),
-                            iconSize: 30,
+                              // }
+                            });
+                          },
+                          icon: FaIcon(
+                            FontAwesomeIcons.check,
+                            color: Colors.black,
+                            size: 30,
                           ),
-                    isPresent.value
-                        ? IconButton(
-                            onPressed: () {
-                              AttendanceModel studentAttendance = AttendanceModel(
-                                  name: widget.studentName,
-                                  isPresent: false,
-                                  rollNo: widget.rollNo,
-                                  dateTime:
-                                      "${DateTime.now().day} : ${DateTime.now().month} : ${DateTime.now().year}",
-                                  id: widget.userId);
-                              DatabaseMethods()
-                                  .setAttendance(
-                                      dateTime: dateTimeScript,
-                                      isPresent: false,
-                                      name: widget.studentName,
-                                      userId: widget.userId,
-                                      userName: widget.rollNo)
-                                  .then((value) {
-                                // if (widget.isPresent!) {
-                                setState(() {
-                                  allAbsentStudents.add(value);
-                                  allPresentStudents.remove(widget.index);
-                                  selectedStudentAttendance
-                                      .remove(widget.index);
-                                });
-                                // }
-                              });
+                          iconSize: 30,
+                        ),
+                  isPresent
+                      ? IconButton(
+                          onPressed: () {
+                            AttendanceModel studentAttendance = AttendanceModel(
+                                name: studentName,
+                                isPresent: false,
+                                rollNo: rollNo,
+                                dateTime:
+                                    "${DateTime.now().day} : ${DateTime.now().month} : ${DateTime.now().year}",
+                                id: userId);
+                            DatabaseMethods()
+                                .setAttendance(
+                                    dateTime: dateTimeScript,
+                                    isPresent: false,
+                                    name: studentName,
+                                    userId: userId,
+                                    userName: rollNo)
+                                .then((value) {
+                              // if (widget.isPresent!) {
                               setState(() {
-                                isPresent = false.obs;
+                                getAllStudents();
+                                // allAbsentStudents.add(value);
+                                // allPresentStudents.remove(index);
+                                // isPresent = false;
+
+                                selectedStudentAttendance.remove(index);
                               });
-                            },
-                            icon: Icon(
-                              Icons.cancel_rounded,
-                              color: Colors.black,
-                              size: 30,
-                            ),
-                            iconSize: 30,
-                          )
-                        : Container(),
-                  ],
-                )
-              ],
-            ),
+                              // }
+                            });
+                          },
+                          icon: Icon(
+                            Icons.cancel_rounded,
+                            color: Colors.black,
+                            size: 30,
+                          ),
+                          iconSize: 30,
+                        )
+                      : Container(),
+                ],
+              )
+            ],
           ),
         ),
       ),

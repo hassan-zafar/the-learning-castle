@@ -85,6 +85,9 @@ class AuthenticationService {
     final String? section,
     final String? phoneNo,
     final bool? isTeacher,
+    final String? branch,
+    final String? className,
+    final String? grades,
   }) async {
     try {
       final UserCredential result = await _firebaseAuth
@@ -108,6 +111,10 @@ class AuthenticationService {
           timestamp: Timestamp.now().toString(),
           isAdmin: false,
           isTeacher: isTeacher,
+          branch: branch,
+          className: className,
+          grades: grades,
+          rollNo: rollNo,
         );
         await DatabaseMethods().addUserInfoToFirebase(
           userModel: currentUser,
@@ -116,6 +123,12 @@ class AuthenticationService {
           isStuTeacher: true,
         );
       }
+      DatabaseMethods().addFeeRef(
+          feeId: user.uid,
+          totalFee: "totalFee",
+          pendingFee: "0",
+          feePackage: "Premium",
+          isPaid: true);
       return user;
     } on FirebaseAuthException catch (e) {
       errorToast(message: e.message!);

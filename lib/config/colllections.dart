@@ -18,12 +18,13 @@ final chatListRef = FirebaseFirestore.instance.collection('chatLists');
 final studentJournelRef =
     FirebaseFirestore.instance.collection('studentJournel');
 final attendanceRef = FirebaseFirestore.instance.collection('attendanceRef');
+final announcementsRef = FirebaseFirestore.instance.collection('announcements');
 
 final feeRef = FirebaseFirestore.instance.collection('feeRef');
 
 AppUserModel? currentUser;
 bool? isAdmin;
-String? userUid;
+bool? isTeacher;
 
 String dateTimeScript =
     "${DateTime.now().day} : ${DateTime.now().month} : ${DateTime.now().year}";

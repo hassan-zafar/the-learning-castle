@@ -2,11 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:group_button/group_button.dart';
 import 'package:the_learning_castle_v2/config/colllections.dart';
 import 'package:the_learning_castle_v2/database/database.dart';
 import 'package:the_learning_castle_v2/screens/auth/widgets/decoration_functions.dart';
-import 'package:the_learning_castle_v2/screens/homepage.dart';
+import 'package:the_learning_castle_v2/screens/landingPage.dart';
 import 'package:the_learning_castle_v2/services/authentication_service.dart';
 import 'package:the_learning_castle_v2/tools/custom_toast.dart';
 import '../../../config/palette.dart';
@@ -227,7 +226,7 @@ class _SignInState extends State<SignIn> {
               .fetchUserInfoFromFirebase(uid: userId)
               .then((value) => setState(() {
                     _isLoading = false;
-                    Get.off(() => HomePage());
+                    Get.off(() => LandingPage());
                   }));
 
           break;
