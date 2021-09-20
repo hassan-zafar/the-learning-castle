@@ -11,7 +11,7 @@ Future<Map<String, dynamic>?> sendAndRetrieveMessage(
     {required String token,
     required String message,
     required BuildContext context,
-     String? imageUrl,
+    String? imageUrl,
     required String title}) async {
   final String serverToken =
       "AAAASKzR1BU:APA91bEl0ReuZx4a1AeumEr2ZVwE40nE29feDeOkckYVzZN0lXNcxl6Cl3R9Q02ZNsLL2a6AOI40ToVywCjakQWo7QsPeWbs8T9Yi3ygvif70jaG4ET_DtH8dbiltyPP2Bn6xgzkV3Wf";
