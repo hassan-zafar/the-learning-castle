@@ -28,9 +28,7 @@ class _EmailSignUpState extends State<AddStudentTeacher> {
   TextEditingController _firstNameController = TextEditingController();
   TextEditingController _lastNameController = TextEditingController();
   TextEditingController _userNameController = TextEditingController();
-
   TextEditingController _phoneNoController = TextEditingController();
-
   TextEditingController _emailController = TextEditingController();
   TextEditingController _sectionController = TextEditingController();
 
