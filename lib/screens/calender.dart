@@ -59,54 +59,57 @@ class _CalenderState extends State<Calender>
   Widget build(BuildContext context) {
     super.build(context);
 
-    return Container(
-      decoration: backgroundColorBoxDecoration(),
-      child: Scaffold(
-          body: SingleChildScrollView(
-        child: Container(
-          height: MediaQuery.of(context).size.height * 0.9,
-          child: _isLoading
-              ? LoadingIndicator()
-              : SfCalendar(
-                  backgroundColor: Colors.transparent,
-                  allowedViews: [
-                    CalendarView.day,
-                    CalendarView.schedule,
-                    CalendarView.month,
-                    CalendarView.timelineDay,
-                    CalendarView.week,
-                    CalendarView.timelineMonth,
-                    CalendarView.timelineWeek,
-                    CalendarView.timelineWorkWeek,
-                    CalendarView.workWeek
-                  ],
-                  view: CalendarView.month,
-                  showDatePickerButton: true,
-                  showNavigationArrow: true,
-                  allowViewNavigation: true,
-                  controller: _controller,
-                  onTap: (CalendarTapDetails asd) async {
-                    // DatePicker.showTime12hPicker(context,currentTime: DateTime.now(),);
-                    print(asd.targetElement.index);
-                    if (currentUser!.isAdmin! && asd.targetElement.index != 0) {
-                      meetingTimePicker(context, asd.date!).then((value) {
-                        print(meetingsList);
-                        setState(() {
-                          this.meetingsList = meetingsList;
+    return SafeArea(
+      child: Container(
+        decoration: backgroundColorBoxDecoration(),
+        child: Scaffold(
+            body: SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.9,
+            child: _isLoading
+                ? LoadingIndicator()
+                : SfCalendar(
+                    backgroundColor: Colors.transparent,
+                    allowedViews: [
+                      CalendarView.day,
+                      CalendarView.schedule,
+                      CalendarView.month,
+                      CalendarView.timelineDay,
+                      CalendarView.week,
+                      CalendarView.timelineMonth,
+                      CalendarView.timelineWeek,
+                      CalendarView.timelineWorkWeek,
+                      CalendarView.workWeek
+                    ],
+                    view: CalendarView.month,
+                    showDatePickerButton: true,
+                    showNavigationArrow: true,
+                    allowViewNavigation: true,
+                    controller: _controller,
+                    onTap: (CalendarTapDetails asd) async {
+                      // DatePicker.showTime12hPicker(context,currentTime: DateTime.now(),);
+                      print(asd.targetElement.index);
+                      if (currentUser!.isAdmin! &&
+                          asd.targetElement.index != 0) {
+                        meetingTimePicker(context, asd.date!).then((value) {
+                          print(meetingsList);
+                          setState(() {
+                            this.meetingsList = meetingsList;
+                          });
                         });
-                      });
-                    }
-                  },
-                  dataSource:
-                      //  AppointmentDataSource(_getDataSourceAppointment()),
-                      MeetingDataSource(meetingsList),
-                  monthViewSettings: MonthViewSettings(
-                      appointmentDisplayMode:
-                          MonthAppointmentDisplayMode.appointment,
-                      showAgenda: true),
-                ),
-        ),
-      )),
+                      }
+                    },
+                    dataSource:
+                        //  AppointmentDataSource(_getDataSourceAppointment()),
+                        MeetingDataSource(meetingsList),
+                    monthViewSettings: MonthViewSettings(
+                        appointmentDisplayMode:
+                            MonthAppointmentDisplayMode.appointment,
+                        showAgenda: true),
+                  ),
+          ),
+        )),
+      ),
     );
   }
 
@@ -199,7 +202,6 @@ class _CalenderState extends State<Calender>
         startTimeOfDay!.hour, startTimeOfDay.minute, 0);
     final DateTime endTime = DateTime(today.year, today.month, today.day,
         endingTime!.hour, endingTime!.minute, 0);
-    ;
 
     String meetingId = Uuid().v4();
     calenderRef.doc(meetingId).set({
