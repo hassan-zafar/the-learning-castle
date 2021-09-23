@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:the_learning_castle_v2/config/colllections.dart';
 import 'package:the_learning_castle_v2/database/local_database.dart';
 import 'package:the_learning_castle_v2/models/users.dart';
+import 'package:the_learning_castle_v2/screens/adminScreens/manageCodes.dart';
 import 'package:the_learning_castle_v2/screens/adminScreens/userDetailsPage.dart';
 import 'package:the_learning_castle_v2/screens/announcements/announcements.dart';
 import 'package:the_learning_castle_v2/screens/referStudents/referStudentPage.dart';
@@ -364,11 +365,11 @@ class _LandingPageState extends State<LandingPage> {
               ),
             ),
             GestureDetector(
-              onTap: () => Get.to(() => AboutUsPage()),
+              onTap: () => Get.to(() => ManageCodes()),
               child: EditedNeuomprphicContainer(
-                icon: Icons.info_outline,
+                icon: Icons.qr_code_2_rounded,
                 isIcon: true,
-                text: "About Us",
+                text: "Manage Codes",
                 isLanding: true,
               ),
             ),
