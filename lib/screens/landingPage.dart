@@ -19,7 +19,7 @@ import '../main.dart';
 import 'aboutUs.dart';
 import 'adminScreens/allUsers.dart';
 import 'adminScreens/chatLists.dart';
-import 'appointments.dart';
+import 'appointements/appointments.dart';
 import 'calender.dart';
 import 'loginRelated/login.dart';
 

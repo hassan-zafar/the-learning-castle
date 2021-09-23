@@ -7,8 +7,9 @@ import 'package:the_learning_castle_v2/config/colllections.dart';
 import 'package:the_learning_castle_v2/constants.dart';
 import 'package:the_learning_castle_v2/database/database.dart';
 import 'package:the_learning_castle_v2/models/appointmentsModel.dart';
-import 'package:the_learning_castle_v2/screens/newAppointments.dart';
 import 'package:the_learning_castle_v2/tools/loading.dart';
+
+import 'newAppointments.dart';
 
 class Appointments extends StatefulWidget {
   @override

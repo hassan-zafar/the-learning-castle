@@ -61,10 +61,9 @@ class MyApp extends StatelessWidget {
         currentuserString != "" &&
         currentuserString != "USERMODELSTRING") {
       currentUser = AppUserModel.fromMap(json.decode(currentuserString));
-        isAdmin = UserLocalData().getIsAdmin();
-    isTeacher = currentUser!.isTeacher;
+      isAdmin = currentUser!.isAdmin;
+      isTeacher = currentUser!.isTeacher;
     }
-
 
     return GetMaterialApp(
       title: 'TLC International',

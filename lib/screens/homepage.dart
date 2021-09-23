@@ -7,12 +7,12 @@ import 'package:the_learning_castle_v2/screens/adminScreens/chatLists.dart';
 import 'package:the_learning_castle_v2/screens/adminScreens/commentsNChat.dart';
 import 'package:the_learning_castle_v2/screens/adminScreens/manageCodes.dart';
 import 'package:the_learning_castle_v2/screens/adminScreens/userDetailsPage.dart';
-import 'package:the_learning_castle_v2/screens/appointments.dart';
 import 'package:the_learning_castle_v2/screens/calender.dart';
 import 'package:the_learning_castle_v2/screens/studentsJournel.dart';
 import 'package:the_learning_castle_v2/screens/teacherScreens/addAttendance.dart';
 
 import '../constants.dart';
+import 'appointements/appointments.dart';
 
 String? email;
 String? userName;
