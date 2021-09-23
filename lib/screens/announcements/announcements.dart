@@ -11,7 +11,6 @@ import '../../constants.dart';
 import '../landingPage.dart';
 import 'addAnnouncements.dart';
 
-
 class Announcements extends StatefulWidget {
   @override
   _AnnouncementsState createState() => _AnnouncementsState();
@@ -44,7 +43,7 @@ class _AnnouncementsState extends State<Announcements> {
     return Container(
       decoration: backgroundColorBoxDecorationLogo(),
       child: Scaffold(
-        floatingActionButton: isAdmin!
+        floatingActionButton: currentUser!.isAdmin!
             ? FloatingActionButton(
                 onPressed: () => Get.to(() => AddAnnouncements())!
                     .then((value) => getAnnouncements()),
@@ -58,7 +57,7 @@ class _AnnouncementsState extends State<Announcements> {
           children: [
             Center(
               child: Text(
-                "WEMC Updates",
+                "Announcements",
                 style: titleTextStyle(),
               ),
             ),

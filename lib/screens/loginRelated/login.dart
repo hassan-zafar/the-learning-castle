@@ -219,35 +219,35 @@ class _LoginPageState extends State<LoginPage> {
       //     allCodes.add(e['code'].toString());
       //   }
       // });
-      // for (int i = 0; i < allCodes.length; i++) {
-      //   if (_codeController.text == allCodes[i]) {
-      String userId = await AuthenticationService()
-          .logIn(email: email, password: password)
-          .onError((error, stackTrace) async {
-        errorToast(message: "Please Try again");
-        setState(() {
-          _isLoading = false;
-          _emailController.clear();
-          _passwordController.clear();
-        });
-        return error.toString();
-      });
+      for (int i = 0; i < allCodes.length; i++) {
+        if (_codeController.text == allCodes[i]) {
+          String userId = await AuthenticationService()
+              .logIn(email: email, password: password)
+              .onError((error, stackTrace) async {
+            errorToast(message: "Please Try again");
+            setState(() {
+              _isLoading = false;
+              _emailController.clear();
+              _passwordController.clear();
+            });
+            return error.toString();
+          });
 
-      await DatabaseMethods()
-          .fetchUserInfoFromFirebase(uid: userId)
-          .then((value) => setState(() {
-                _isLoading = false;
-                Get.off(() => LandingPage());
-              }));
+          await DatabaseMethods()
+              .fetchUserInfoFromFirebase(uid: userId)
+              .then((value) => setState(() {
+                    _isLoading = false;
+                    Get.off(() => LandingPage());
+                  }));
 
-      //   break;
-      // }
-      // else {
-      // errorToast(message: "Couldn't match code");
-      setState(() {
-        _isLoading = false;
-      });
-      // }
+          break;
+        } else {
+          errorToast(message: "Couldn't match code");
+          setState(() {
+            _isLoading = false;
+          });
+        }
+      }
     }
   }
 
