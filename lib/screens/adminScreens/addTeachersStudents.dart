@@ -255,14 +255,16 @@ class _EmailSignUpState extends State<AddStudentTeacher> {
                               : "Roll No Too Short",
                           validationStringLength: 3,
                         ),
-//rades
-                        TextInputCard(
-                          controller: _gradesController,
-                          label: "Add Student's Grade",
-                          hintText: "If new student assign 'N'",
-                          validatorErrorText: "Grade Invalid",
-                          validationStringLength: 1,
-                        ),
+//grades
+                        _isTeacher
+                            ? Container()
+                            : TextInputCard(
+                                controller: _gradesController,
+                                label: "Add Student's Grade",
+                                hintText: "If new student assign 'N'",
+                                validatorErrorText: "Grade Invalid",
+                                validationStringLength: 1,
+                              ),
 //Email
                         Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -560,7 +562,7 @@ class _EmailSignUpState extends State<AddStudentTeacher> {
               className: _classNameController.text)
           .then((value) {
         String? userAddedType;
-      
+
         _isTeacher ? userAddedType = "Teacher" : userAddedType = "Student";
         showToast(message: "New $userAddedType has been Added");
         Get.back();
