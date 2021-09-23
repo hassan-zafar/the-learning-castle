@@ -10,15 +10,28 @@ class AboutUsPage extends StatefulWidget {
 }
 
 class _AboutUsPageState extends State<AboutUsPage> {
+  int _progress = 0;
+  bool _isLoading = true;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Container(
       decoration: backgroundColorBoxDecoration(),
-      child: WebView(
-        initialUrl: "https://www.tlcme.org",
-        javascriptMode: JavascriptMode.unrestricted,
-        onProgress: (progress) => LoadingIndicator(),
+      child: Stack(
+        children: [
+          WebView(
+            initialUrl: "https://www.tlcme.org",
+            javascriptMode: JavascriptMode.unrestricted,
+            onProgress: (progress) {
+              print("progress: $progress");
+              setState(() {
+                _progress = progress;
+                _isLoading = !(_progress == 100);
+              });
+            },
+          ),
+          _isLoading ? LoadingIndicator() : Container(),
+        ],
       ),
     ));
   }
