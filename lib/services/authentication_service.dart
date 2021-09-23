@@ -36,6 +36,26 @@ class AuthenticationService {
     }
   }
 
+  Future deleteUser(String email, String password) async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+
+    try {
+      User user = _firebaseAuth.currentUser!;
+      AuthCredential credentials =
+          EmailAuthProvider.credential(email: email, password: password);
+      print(user);
+      UserCredential result =
+          await user.reauthenticateWithCredential(credentials);
+      userRef.doc(user.uid).delete();
+
+      await result.user!.delete();
+      return true;
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+  }
+
   Future<UserCredential?> signUp({
     required final String password,
     required final String? userName,

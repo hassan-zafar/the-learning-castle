@@ -415,8 +415,8 @@ class UserResult extends StatelessWidget {
     // });
   }
 
-  void deleteUser() {
-    userRef.doc(user.id).delete();
+  void deleteUser() async {
+    deleteUser();
     BotToast.showText(text: 'User Deleted Refresh');
   }
 }
