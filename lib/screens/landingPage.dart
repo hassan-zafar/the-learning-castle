@@ -10,6 +10,7 @@ import 'package:the_learning_castle_v2/models/users.dart';
 import 'package:the_learning_castle_v2/screens/adminScreens/manageCodes.dart';
 import 'package:the_learning_castle_v2/screens/adminScreens/userDetailsPage.dart';
 import 'package:the_learning_castle_v2/screens/announcements/announcements.dart';
+import 'package:the_learning_castle_v2/screens/myClassTeacher.dart';
 import 'package:the_learning_castle_v2/screens/referStudents/referStudentPage.dart';
 import 'package:the_learning_castle_v2/screens/teacherScreens/addAttendance.dart';
 import 'package:the_learning_castle_v2/services/authentication_service.dart';
@@ -298,18 +299,11 @@ class _LandingPageState extends State<LandingPage> {
               ),
             ),
             GestureDetector(
-              onTap: () => Get.to(() => Appointments()),
-              child: EditedNeuomprphicContainer(
-                text: "Appointments",
-                icon: Icons.calendar_view_month_rounded,
-              ),
-            ),
-            GestureDetector(
               onTap: () {
-                Get.to(() => AttendancePage());
+                Get.to(() => MyClassTeacher());
               },
               child: EditedNeuomprphicContainer(
-                  text: "Attendance Page", icon: Icons.person_add_alt_outlined),
+                  text: "My Classes", icon: Icons.school),
             ),
           ],
         ),
