@@ -4,7 +4,9 @@ import 'package:the_learning_castle_v2/config/colllections.dart';
 import 'package:the_learning_castle_v2/database/database.dart';
 import 'package:the_learning_castle_v2/database/local_database.dart';
 import 'package:the_learning_castle_v2/models/users.dart';
+import 'package:the_learning_castle_v2/screens/landingPage.dart';
 import 'package:the_learning_castle_v2/tools/custom_toast.dart';
+import 'package:get/get.dart';
 
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -17,19 +19,29 @@ class AuthenticationService {
     UserLocalData().logOut();
   }
 
-  // ignore: missing_return
   Future logIn({
     required String email,
     required final String password,
   }) async {
     print("here");
     try {
-      final UserCredential result = await _firebaseAuth
-          .signInWithEmailAndPassword(email: email, password: password);
-      return result.user!.uid;
+      // final UserCredential result =
+      await _firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) {
+        print(" auth service login: $value");
+        print(" auth service login uid: ${value.user!.uid}");
+
+        // return value.user!.uid;
+        DatabaseMethods()
+            .fetchUserInfoFromFirebase(uid: value.user!.uid)
+            .then((value) => Get.off(() => LandingPage()));
+      });
+      // return result.user!.uid;
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
+        errorToast(message: 'No user found for that email.');
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
       }

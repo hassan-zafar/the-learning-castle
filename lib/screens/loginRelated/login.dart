@@ -208,7 +208,7 @@ class _LoginPageState extends State<LoginPage> {
       snapshot.docs.forEach((e) {
         Timestamp exp = e['expiryDate'];
         print(exp);
-        if (exp.toDate().isBefore(DateTime.now())) {
+        if (exp.toDate().isAfter(DateTime.now())) {
           allCodes.add(e['code'].toString());
         }
       });
@@ -220,25 +220,25 @@ class _LoginPageState extends State<LoginPage> {
       //   }
       // });
       for (int i = 0; i < allCodes.length; i++) {
+        print(allCodes.length);
+        print(allCodes[i]);
         if (_codeController.text == allCodes[i]) {
-          String userId = await AuthenticationService()
+          // final userId = await
+          AuthenticationService()
               .logIn(email: email, password: password)
-              .onError((error, stackTrace) async {
-            errorToast(message: "Please Try again");
+              .then((value) {
+            setState(() {
+              _isLoading = false;
+            });
+          }).onError((error, stackTrace) async {
             setState(() {
               _isLoading = false;
               _emailController.clear();
               _passwordController.clear();
             });
-            return error.toString();
+            // errorToast(message: error.toString());
+            return null;
           });
-
-          await DatabaseMethods()
-              .fetchUserInfoFromFirebase(uid: userId)
-              .then((value) => setState(() {
-                    _isLoading = false;
-                    Get.off(() => LandingPage());
-                  }));
 
           break;
         } else {
