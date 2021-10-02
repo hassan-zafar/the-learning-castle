@@ -28,3 +28,4 @@ bool? isTeacher;
 
 String dateTimeScript =
     "${DateTime.now().day} : ${DateTime.now().month} : ${DateTime.now().year}";
+var x;
