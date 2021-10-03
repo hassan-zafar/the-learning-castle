@@ -19,8 +19,8 @@ final studentJournelRef =
     FirebaseFirestore.instance.collection('studentJournel');
 final attendanceRef = FirebaseFirestore.instance.collection('attendanceRef');
 final announcementsRef = FirebaseFirestore.instance.collection('announcements');
-
 final feeRef = FirebaseFirestore.instance.collection('feeRef');
+final branchesRef = FirebaseFirestore.instance.collection('branches');
 
 AppUserModel? currentUser;
 bool? isAdmin;
@@ -28,4 +28,3 @@ bool? isTeacher;
 
 String dateTimeScript =
     "${DateTime.now().day} : ${DateTime.now().month} : ${DateTime.now().year}";
-var x;
