@@ -84,12 +84,18 @@ class _EmailSignUpState extends State<AddStudentTeacher> {
   @override
   void initState() {
     super.initState();
+    getBranches();
   }
 
   getBranches() async {
     DatabaseMethods().fetchBranchesFromFirebase().then((value) {
       if (value != null) {
-        print(value);
+        print(value["branchName"]);
+        String branchName = value["branchName"];
+        allBranches.add(DropdownMenuItem<String>(
+          child: Text(branchName),
+          value: branchName,
+        ));
       }
     });
   }
