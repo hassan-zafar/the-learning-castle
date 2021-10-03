@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
+import 'package:the_learning_castle_v2/database/database.dart';
 import 'package:the_learning_castle_v2/services/authentication_service.dart';
 import 'package:the_learning_castle_v2/tools/custom_toast.dart';
 import 'package:the_learning_castle_v2/tools/loading.dart';
@@ -83,6 +84,14 @@ class _EmailSignUpState extends State<AddStudentTeacher> {
   @override
   void initState() {
     super.initState();
+  }
+
+  getBranches() async {
+    DatabaseMethods().fetchBranchesFromFirebase().then((value) {
+      if (value != null) {
+        print(value);
+      }
+    });
   }
 
   @override
@@ -470,10 +479,14 @@ class _EmailSignUpState extends State<AddStudentTeacher> {
                                 if (contains) {
                                   showToast(message: "Already Exists");
                                 } else {
-                                  allBranches.add(DropdownMenuItem<String>(
-                                    child: Text(controller.text),
-                                    value: controller.text,
-                                  ));
+                                  DatabaseMethods()
+                                      .addBranch(branchName: controller.text)
+                                      .then((value) {
+                                    allBranches.add(DropdownMenuItem<String>(
+                                      child: Text(controller.text),
+                                      value: controller.text,
+                                    ));
+                                  });
                                 }
                               } else {
                                 showToast(message: "Should not be left empty");
@@ -495,6 +508,7 @@ class _EmailSignUpState extends State<AddStudentTeacher> {
             }),
           );
         }).then((value) {
+      getBranches();
       setState(() {});
     });
   }

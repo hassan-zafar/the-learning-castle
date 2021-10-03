@@ -79,12 +79,13 @@ class DatabaseMethods {
       },
     );
   }
+
   Future addBranch({
     required String branchName,
   }) async {
-    return branchesRef.doc(branchName).set({
-      "branchName": branchName
-    }).catchError(
+    return branchesRef
+        .doc(branchName)
+        .set({"branchName": branchName}).catchError(
       (Object obj) {
         errorToast(message: obj.toString());
       },
@@ -225,9 +226,8 @@ class DatabaseMethods {
     return allAppointmentsSnapshots;
   }
 
-  Future fetchBranchesFromFirebase({@required String? uid}) async {
-    final QuerySnapshot allBranchesSnapshots =
-        await branchesRef.doc(uid).collection("branches").get();
+  Future fetchBranchesFromFirebase() async {
+    final QuerySnapshot allBranchesSnapshots = await branchesRef.get();
 
     return allBranchesSnapshots;
   }
