@@ -226,7 +226,7 @@ class DatabaseMethods {
     return allAppointmentsSnapshots;
   }
 
-  Future fetchBranchesFromFirebase() async {
+  Future<QuerySnapshot> fetchBranchesFromFirebase() async {
     final QuerySnapshot allBranchesSnapshots = await branchesRef.get();
 
     return allBranchesSnapshots;

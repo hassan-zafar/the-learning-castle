@@ -48,7 +48,6 @@ class _EmailSignUpState extends State<AddStudentTeacher> {
   String? _branchValue;
   final TextEditingController _branchController = TextEditingController();
   final TextEditingController _gradesController = TextEditingController();
-
   final TextEditingController _classNameController = TextEditingController();
   // getUserEditInfo() {
   //   _firstNameController.text = currentUser.fname;
@@ -88,15 +87,26 @@ class _EmailSignUpState extends State<AddStudentTeacher> {
   }
 
   getBranches() async {
+    setState(() {
+      _isLoading = true;
+    });
     DatabaseMethods().fetchBranchesFromFirebase().then((value) {
       if (value != null) {
-        print(value["branchName"]);
-        String branchName = value["branchName"];
-        allBranches.add(DropdownMenuItem<String>(
-          child: Text(branchName),
-          value: branchName,
-        ));
+        print(value.runtimeType);
+        value.docs.forEach((element) {
+          print("element+ ${element["branchName"]}");
+          String branchName = element['branchName'];
+
+          allBranches.add(DropdownMenuItem<String>(
+            child: Text(branchName),
+            value: branchName,
+          ));
+        });
       }
+    });
+    setState(() {
+      _isLoading = false;
+      this.allBranches = allBranches;
     });
   }
 
