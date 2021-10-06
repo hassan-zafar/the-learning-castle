@@ -159,7 +159,7 @@ class CommentsNChatState extends State<CommentsNChat> {
           elevation: 0,
           backgroundColor: Colors.transparent,
           title: Text(
-            "Contact Admin",
+            currentUser!.isAdmin! ? "Manage Queries" : "Contact Admin",
             style: TextStyle(color: Colors.black),
           ),
         ),
@@ -186,9 +186,9 @@ class CommentsNChatState extends State<CommentsNChat> {
                   ),
                 ),
               ),
-              SizedBox(
-                height: 50,
-              ),
+              // SizedBox(
+              //   height: 50,
+              // ),
             ],
           ),
         ),
@@ -200,7 +200,7 @@ class CommentsNChatState extends State<CommentsNChat> {
 class CommentsNMessages extends StatefulWidget {
   final String? userName;
   final String? userId;
-  final String? avatarUrl;
+  // final String? avatarUrl;
   final String? comment;
   final Timestamp? timestamp;
   final String? commentId;
@@ -208,20 +208,20 @@ class CommentsNMessages extends StatefulWidget {
   CommentsNMessages({
     this.userName,
     this.userId,
-    this.avatarUrl,
+    // this.avatarUrl,
     this.comment,
     this.timestamp,
     this.commentId,
     // this.androidNotificationToken,
   });
-  factory CommentsNMessages.fromDocument(DocumentSnapshot doc) {
+  factory CommentsNMessages.fromDocument(doc) {
     return CommentsNMessages(
-      avatarUrl: doc['avatarUrl'],
-      comment: doc['comment'],
-      timestamp: doc['timestamp'],
-      userId: doc['userId'],
-      userName: doc['userName'],
-      commentId: doc["commentId"],
+      // avatarUrl: doc['avatarUrl'],
+      comment: doc.data()['comment'],
+      timestamp: doc.data()['timestamp'],
+      userId: doc.data()['userId'],
+      userName: doc.data()['userName'],
+      commentId: doc.data()["commentId"],
       // androidNotificationToken: doc["androidNotificationToken"],
     );
   }
