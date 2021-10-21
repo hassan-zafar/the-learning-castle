@@ -158,27 +158,34 @@ class _AttendancePageState extends State<AttendancePage> {
               alignment: Alignment(0, 0),
               child: Padding(
                 padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                child: Column(
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _studentAttendence = StudentAttendence.Present;
-                          selectedStudentAttendance = allPresentStudents;
-                        });
-                      },
-                      child: Text("${allPresentStudents.length} Present"),
+                    Row(
+                      children: [Text("Class: ")],
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _studentAttendence = StudentAttendence.Absent;
-                          selectedStudentAttendance = allAbsentStudents;
-                        });
-                      },
-                      child: Text("${allAbsentStudents.length} Absent"),
+                    Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _studentAttendence = StudentAttendence.Present;
+                              selectedStudentAttendance = allPresentStudents;
+                            });
+                          },
+                          child: Text("${allPresentStudents.length} Present"),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _studentAttendence = StudentAttendence.Absent;
+                              selectedStudentAttendance = allAbsentStudents;
+                            });
+                          },
+                          child: Text("${allAbsentStudents.length} Absent"),
+                        ),
+                      ],
                     ),
                   ],
                 ),

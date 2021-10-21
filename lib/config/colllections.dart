@@ -21,6 +21,7 @@ final attendanceRef = FirebaseFirestore.instance.collection('attendanceRef');
 final announcementsRef = FirebaseFirestore.instance.collection('announcements');
 final feeRef = FirebaseFirestore.instance.collection('feeRef');
 final branchesRef = FirebaseFirestore.instance.collection('branches');
+final classesRef = FirebaseFirestore.instance.collection('classes');
 
 AppUserModel? currentUser;
 bool? isAdmin;
