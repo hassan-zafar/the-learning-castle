@@ -8,6 +8,7 @@ import 'package:the_learning_castle_v2/config/enums/studentAttendence.dart';
 import 'package:the_learning_castle_v2/constants.dart';
 import 'package:the_learning_castle_v2/database/database.dart';
 import 'package:the_learning_castle_v2/models/attendanceModel.dart';
+import 'package:the_learning_castle_v2/models/classModel.dart';
 import 'package:the_learning_castle_v2/models/users.dart';
 
 class AttendancePage extends StatefulWidget {
@@ -15,17 +16,18 @@ class AttendancePage extends StatefulWidget {
   _AttendancePageState createState() => _AttendancePageState();
 }
 
-List<AppUserModel> allStudentsData = [];
-List<AttendanceModel> allPresentStudents = [];
-List<AttendanceModel> allAbsentStudents = [];
-List<AttendanceModel> allAttendanceData = [];
-List<AttendanceModel> selectedStudentAttendance = [];
-
 class _AttendancePageState extends State<AttendancePage> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   DateTime? _focusedDay;
   DateTime? _selectedDay;
   StudentAttendence _studentAttendence = StudentAttendence.Remaining;
+
+  List<ClassesModel> allClassesData = [];
+  List<AppUserModel> allStudentsData = [];
+  List<AttendanceModel> allPresentStudents = [];
+  List<AttendanceModel> allAbsentStudents = [];
+  List<AttendanceModel> allAttendanceData = [];
+  List<AttendanceModel> selectedStudentAttendance = [];
 
   bool _isLoading = false;
   @override
@@ -82,6 +84,30 @@ class _AttendancePageState extends State<AttendancePage> {
     });
   }
 
+  getClasses() async {
+    setState(() {
+      _isLoading = true;
+    });
+    QuerySnapshot? classesSnapshot = await classesRef
+        .where("isTeacher", isEqualTo: true)
+        // .where("isAdmin", isEqualTo: false)
+        .get();
+    allClassesData = [];
+    classesSnapshot.docs.forEach((element) async {
+      ClassesModel classModel = ClassesModel.fromDocument(element);
+      allClassesData.add(classModel);
+      // if (attendanceResultTemp.dateTime == dateTimeScript &&
+      //     attendanceResultTemp.isPresent != null) {
+      // } else {
+      //   allStudentsData.add(studentUserModel);
+      // }
+    });
+    setState(() {
+      this.allClassesData = allClassesData;
+      _isLoading = false;
+    });
+  }
+
   getAllStudents() async {
     setState(() {
       _isLoading = true;
@@ -94,6 +120,7 @@ class _AttendancePageState extends State<AttendancePage> {
     allStudentsSnapshot.docs.forEach((element) async {
       AppUserModel studentUserModel = AppUserModel.fromDocument(element);
       getAttendance(studentUserModel);
+      getClasses();
       // if (attendanceResultTemp.dateTime == dateTimeScript &&
       //     attendanceResultTemp.isPresent != null) {
       // } else {
