@@ -25,7 +25,7 @@ class _UserNSearchState extends State<UserNSearch>
   Future<QuerySnapshot>? searchResultsFuture;
   TextEditingController searchController = TextEditingController();
 
-  String typeSelected = 'users';
+  String typeSelected = currentUser!.isTeacher! ? "students" : 'users';
   handleSearch(String query) {
     if (currentUser!.isAdmin!) {
       Future<QuerySnapshot> users =
@@ -163,7 +163,7 @@ class _UserNSearchState extends State<UserNSearch>
                 child: ListView(
                   physics: BouncingScrollPhysics(),
                   children: <Widget>[
-                    currentUser!.isAdmin!
+                    currentUser!.isAdmin! && !currentUser!.isTeacher!
                         ? Container(
                             height: 100,
                             child: Padding(
@@ -312,7 +312,7 @@ class _UserNSearchState extends State<UserNSearch>
                             children: allTeachers,
                           )
                         : Text(''),
-                    typeSelected == 'students'
+                    typeSelected == 'students' || currentUser!.isTeacher!
                         ? Column(
                             children: allStudents,
                           )
