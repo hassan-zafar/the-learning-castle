@@ -113,11 +113,14 @@ class _UserNSearchState extends State<UserNSearch>
           body: searchResultsFuture == null
               ? buildAllUsers()
               : buildSearchResult(),
-          floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
-            tooltip: "Add Students And Teachers",
-            onPressed: () => Get.to(() => AddStudentTeacher(isEdit: false)),
-          ),
+          floatingActionButton: currentUser!.isTeacher!
+              ? Container()
+              : FloatingActionButton(
+                  child: Icon(Icons.add),
+                  tooltip: "Add Students And Teachers",
+                  onPressed: () =>
+                      Get.to(() => AddStudentTeacher(isEdit: false)),
+                ),
         ),
       ),
     );

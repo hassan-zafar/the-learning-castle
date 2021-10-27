@@ -58,7 +58,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
     return Container(
       decoration: backgroundColorBoxDecorationLogo(),
       child: Scaffold(
-        floatingActionButton: currentUser!.isAdmin!
+        floatingActionButton: currentUser!.isAdmin! || currentUser!.isTeacher!
             ? FloatingActionButton(
                 onPressed: () => feeStatus(context),
                 child: Icon(Icons.add),
