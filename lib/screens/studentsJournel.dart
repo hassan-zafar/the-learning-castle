@@ -22,7 +22,7 @@ class StudentJournel extends StatefulWidget {
 
 class _StudentJournelState extends State<StudentJournel> {
   double? happySlider;
-  int? iWas;
+  List<int>? iWas;
   int? iAte;
   int? diaperChange;
   int? iNeed;
@@ -40,6 +40,14 @@ class _StudentJournelState extends State<StudentJournel> {
 
   TimeOfDay? sleepingTime;
 
+  List<String> iWasList = [
+    "Circle Time",
+    "Story Time",
+    "Messy Play",
+    "Sand Play",
+    "Craft",
+    "Sensory Activities"
+  ];
   TextEditingController _sleepTimeController = TextEditingController();
   @override
   void initState() {
@@ -259,19 +267,15 @@ class _StudentJournelState extends State<StudentJournel> {
                                 selectedColor: kSelectedColor,
                                 unselectedColor: kUnselectedColor,
                                 isRadio: false,
-                                buttons: [
-                                  "Circle Time",
-                                  "Story Time",
-                                  "Messy Play",
-                                  "Sand Play",
-                                  "Craft",
-                                  "Sensory Activities"
-                                ],
+                                buttons: iWasList,
+                                selectedButtons: studentJournelEntry!.iWas,
                                 onSelected: (index, isSelected) {
                                   if (currentUser!.isTeacher!) {
                                     print(index);
                                     print(isSelected);
-                                    iWas = index;
+                                    if (isSelected && !iWas!.contains(index)) {
+                                      iWas!.add(index);
+                                    }
                                   }
                                 },
                               ),

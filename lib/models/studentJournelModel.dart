@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class StudentJournelModel {
   final double? happySlider;
-  final int? iWas;
+  final List<int>? iWas;
   final int? iAte;
   final int? diaperChange;
   final int? iNeed;
@@ -21,7 +21,7 @@ class StudentJournelModel {
 
   StudentJournelModel copyWith({
     double? happySlider,
-    int? iWas,
+    List<int>? iWas,
     int? iAte,
     int? diaperChange,
     int? iNeed,

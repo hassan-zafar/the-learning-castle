@@ -13,6 +13,7 @@ import 'package:the_learning_castle_v2/screens/announcements/announcements.dart'
 import 'package:the_learning_castle_v2/screens/myClassTeacher.dart';
 import 'package:the_learning_castle_v2/screens/referStudents/referStudentPage.dart';
 import 'package:the_learning_castle_v2/screens/studentIndividualAtendance.dart';
+import 'package:the_learning_castle_v2/screens/studentsJournel.dart';
 import 'package:the_learning_castle_v2/screens/teacherScreens/addAttendance.dart';
 import 'package:the_learning_castle_v2/services/authentication_service.dart';
 import 'package:the_learning_castle_v2/tools/loading.dart';
@@ -252,6 +253,17 @@ class _LandingPageState extends State<LandingPage> {
               ),
             ),
           ],
+        ),
+        GestureDetector(
+          onTap: () {
+            Get.off(() => StudentJournel(
+                  studentId: currentUser!.id,
+                ));
+          },
+          child: EditedNeuomprphicContainer(
+            icon: Icons.school,
+            text: "Activity Done in school",
+          ),
         ),
       ],
     );
