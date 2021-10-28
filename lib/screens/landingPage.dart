@@ -136,11 +136,12 @@ class _LandingPageState extends State<LandingPage> {
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.08,
                       ),
-                      isAdmin!
-                          ? adminPages()
-                          : isTeacher!
-                              ? teacherPages()
-                              : studentPages(),
+                      if (isAdmin!)
+                        adminPages()
+                      else if (currentUser!.isTeacher!)
+                        teacherPages()
+                      else
+                        studentPages(),
                     ],
                   ),
                 ),
@@ -179,7 +180,7 @@ class _LandingPageState extends State<LandingPage> {
               onTap: () =>
                   Get.to(() => UserDetailsPage(userDetails: currentUser!)),
               child: EditedNeuomprphicContainer(
-                text: "All Students",
+                text: "My Details",
                 icon: Icons.person_outline_rounded,
               ),
             ),
