@@ -15,6 +15,7 @@ class CommentsNChat extends StatefulWidget {
   final String? chatId;
   // final String? postMediaUrl;
   final String? heroMsg;
+  final bool? isTeacherParent;
   // final bool? isPostComment;
   // final bool? isProductComment;
   final String? chatNotificationToken;
@@ -24,6 +25,7 @@ class CommentsNChat extends StatefulWidget {
     // this.postMediaUrl,
     // this.postOwnerId,
     required this.chatId,
+    required this.isTeacherParent,
     this.heroMsg,
     // @required this.isPostComment,
     required this.chatNotificationToken,
@@ -78,7 +80,7 @@ class CommentsNChatState extends State<CommentsNChat> {
           .doc(isAdmin != null && isAdmin == true
               ? widget.chatId
               : currentUser!.id)
-          .collection("chats")
+          .collection(widget.isTeacherParent! ? "teacherParent" : "chats")
           .orderBy("timestamp", descending: false)
           .snapshots(),
       builder: (context, snapshot) {
@@ -104,7 +106,7 @@ class CommentsNChatState extends State<CommentsNChat> {
           .doc(isAdmin != null && isAdmin == true
               ? widget.chatId
               : currentUser!.id)
-          .collection("chats")
+          .collection(widget.isTeacherParent! ? "teacherParent" : "chats")
           .doc(commentId)
           .set({
         "userName": currentUser!.userName,

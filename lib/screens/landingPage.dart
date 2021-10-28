@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:the_learning_castle_v2/config/colllections.dart';
 import 'package:the_learning_castle_v2/database/local_database.dart';
 import 'package:the_learning_castle_v2/models/users.dart';
+import 'package:the_learning_castle_v2/screens/adminScreens/commentsNChat.dart';
 import 'package:the_learning_castle_v2/screens/adminScreens/manageCodes.dart';
 import 'package:the_learning_castle_v2/screens/adminScreens/userDetailsPage.dart';
 import 'package:the_learning_castle_v2/screens/announcements/announcements.dart';
@@ -224,9 +225,13 @@ class _LandingPageState extends State<LandingPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetector(
-              onTap: () => Get.to(() => ChatLists()),
+              onTap: () => Get.to(() => CommentsNChat(
+                  chatId: currentUser!.id,
+                  isTeacherParent: false,
+                  chatNotificationToken:
+                      currentUser!.androidNotificationToken)),
               child: EditedNeuomprphicContainer(
-                text: "Chat Lists",
+                text: "Admin Chat",
                 isIcon: true,
                 icon: Icons.chat_bubble_outline_outlined,
                 isLanding: true,
@@ -326,15 +331,15 @@ class _LandingPageState extends State<LandingPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            GestureDetector(
-              onTap: () => Get.to(() => ChatLists()),
-              child: EditedNeuomprphicContainer(
-                text: "Chat Lists",
-                isIcon: true,
-                icon: Icons.chat_bubble_outline_outlined,
-                isLanding: true,
-              ),
-            ),
+            // GestureDetector(
+            //   onTap: () => Get.to(() => ChatLists()),
+            //   child: EditedNeuomprphicContainer(
+            //     text: "Chat Lists",
+            //     isIcon: true,
+            //     icon: Icons.chat_bubble_outline_outlined,
+            //     isLanding: true,
+            //   ),
+            // ),
             // GestureDetector(
             //   onTap: () => Get.to(() => ReferStudentPage()),
             //   child: EditedNeuomprphicContainer(
