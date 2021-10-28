@@ -237,20 +237,9 @@ class DatabaseMethods {
     return allBranchesSnapshots;
   }
 
-  Future fetchStudentJournelDataFromFirebase(
-      {required String? uid, required DateTime dateofEntry}) async {
-    await studentJournelRef
-        .doc(uid)
-        .collection("journelEntries")
-        .doc(dateofEntry.toIso8601String())
-        .get()
-        .then((value) {
-      print(value.exists);
-      if (value.exists) {
-        DocumentSnapshot studentJournelDataSnapshot = value;
+  // Future fetchStudentJournelDataFromFirebase(
+  //     {required String? uid, required DateTime dateofEntry}) async {
 
-        return StudentJournelModel.fromDocument(studentJournelDataSnapshot);
-      }
-    });
-  }
+  //   });
+  // }
 }

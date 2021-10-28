@@ -65,8 +65,8 @@ class _ChatListsState extends State<ChatLists> {
                           MaterialPageRoute(
                               builder: (context) => CommentsNChat(
                                     chatId: chatHeads[index].userId,
-                                    // chatNotificationToken:
-                                    //     chatHeads[index].androidNotificationToken,
+                                    chatNotificationToken:
+                                        chatHeads[index].androidNotificationToken,
                                     heroMsg: chatHeads[index].comment,
                                   ))),
                       child: GlassContainer(

@@ -256,7 +256,7 @@ class _LandingPageState extends State<LandingPage> {
         ),
         GestureDetector(
           onTap: () {
-            Get.off(() => StudentJournel(
+            Get.to(() => StudentJournel(
                   studentId: currentUser!.id,
                 ));
           },
@@ -316,10 +316,10 @@ class _LandingPageState extends State<LandingPage> {
             ),
             GestureDetector(
               onTap: () {
-                Get.to(() => MyClassTeacher());
+                Get.to(() => AttendancePage());
               },
               child: EditedNeuomprphicContainer(
-                  text: "My Classes", icon: Icons.school),
+                  text: "Mark Attendance", icon: Icons.school),
             ),
           ],
         ),

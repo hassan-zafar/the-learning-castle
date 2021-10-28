@@ -23,10 +23,10 @@ class CommentsNChat extends StatefulWidget {
     // this.postId,
     // this.postMediaUrl,
     // this.postOwnerId,
-    this.chatId,
+    required this.chatId,
     this.heroMsg,
     // @required this.isPostComment,
-    this.chatNotificationToken,
+    required this.chatNotificationToken,
     // @required this.isProductComment
   });
   @override
@@ -204,7 +204,7 @@ class CommentsNMessages extends StatefulWidget {
   final String? comment;
   final Timestamp? timestamp;
   final String? commentId;
-  // final String? androidNotificationToken;
+  final String? androidNotificationToken;
   CommentsNMessages({
     this.userName,
     this.userId,
@@ -212,7 +212,7 @@ class CommentsNMessages extends StatefulWidget {
     this.comment,
     this.timestamp,
     this.commentId,
-    // this.androidNotificationToken,
+    this.androidNotificationToken,
   });
   factory CommentsNMessages.fromDocument(doc) {
     return CommentsNMessages(
@@ -222,7 +222,7 @@ class CommentsNMessages extends StatefulWidget {
       userId: doc.data()['userId'],
       userName: doc.data()['userName'],
       commentId: doc.data()["commentId"],
-      // androidNotificationToken: doc["androidNotificationToken"],
+      androidNotificationToken: doc["androidNotificationToken"],
     );
   }
 

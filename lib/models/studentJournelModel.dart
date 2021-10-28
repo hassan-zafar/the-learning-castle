@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 
 class StudentJournelModel {
   final double? happySlider;
@@ -9,15 +10,17 @@ class StudentJournelModel {
   final int? diaperChange;
   final int? iNeed;
   final String? journelNotes;
-
-  StudentJournelModel({
-    this.happySlider,
-    this.iWas,
-    this.iAte,
-    this.diaperChange,
-    this.iNeed,
-    this.journelNotes,
-  });
+  final String? sleepingTimeStr;
+  final TimeOfDay? sleepTIme;
+  StudentJournelModel(
+      {this.happySlider,
+      this.iWas,
+      this.iAte,
+      this.diaperChange,
+      this.iNeed,
+      this.journelNotes,
+      this.sleepTIme,
+      this.sleepingTimeStr});
 
   StudentJournelModel copyWith({
     double? happySlider,
@@ -25,7 +28,9 @@ class StudentJournelModel {
     int? iAte,
     int? diaperChange,
     int? iNeed,
+    final String? sleepingTimeStr,
     String? journelNotes,
+    final TimeOfDay? sleepTIme,
   }) {
     return StudentJournelModel(
       happySlider: happySlider ?? this.happySlider,
@@ -34,6 +39,8 @@ class StudentJournelModel {
       diaperChange: diaperChange ?? this.diaperChange,
       iNeed: iNeed ?? this.iNeed,
       journelNotes: journelNotes ?? this.journelNotes,
+      sleepTIme: sleepTIme ?? this.sleepTIme,
+      sleepingTimeStr: sleepingTimeStr ?? this.sleepingTimeStr,
     );
   }
 
@@ -45,6 +52,8 @@ class StudentJournelModel {
       'diaperChange': diaperChange,
       'iNeed': iNeed,
       'journelNotes': journelNotes,
+      'sleepTIme': sleepTIme,
+      'sleepingTimeStr': sleepingTimeStr,
     };
   }
 
@@ -56,6 +65,8 @@ class StudentJournelModel {
       diaperChange: map['diaperChange'],
       iNeed: map['iNeed'],
       journelNotes: map['journelNotes'],
+      sleepTIme: map['sleepTIme'],
+      sleepingTimeStr: map['sleepingTimeStr'],
     );
   }
   factory StudentJournelModel.fromDocument(DocumentSnapshot doc) {
@@ -66,6 +77,8 @@ class StudentJournelModel {
       diaperChange: doc['diaperChange'],
       iNeed: doc['iNeed'],
       journelNotes: doc['journelNotes'],
+      sleepTIme: doc['sleepTIme'],
+      sleepingTimeStr: doc['sleepingTimeStr'],
     );
   }
   String toJson() => json.encode(toMap());

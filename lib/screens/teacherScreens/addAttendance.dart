@@ -115,6 +115,7 @@ class _AttendancePageState extends State<AttendancePage> {
     QuerySnapshot? allStudentsSnapshot = await userRef
         .where("isTeacher", isEqualTo: false)
         .where("isAdmin", isEqualTo: false)
+        .where("className", isEqualTo: currentUser!.className)
         .get();
     allStudentsData = [];
     allStudentsSnapshot.docs.forEach((element) async {
@@ -187,8 +188,21 @@ class _AttendancePageState extends State<AttendancePage> {
                 padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
                 child: Column(
                   children: [
-                    Row(
-                      children: [Text("Class: ")],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            "Class: ",
+                            style: titleTextStyle(),
+                          ),
+                          Text(
+                            currentUser!.className!,
+                            style: titleTextStyle(),
+                          )
+                        ],
+                      ),
                     ),
                     Row(
                       mainAxisSize: MainAxisSize.max,
