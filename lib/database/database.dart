@@ -165,17 +165,15 @@ class DatabaseMethods {
       String? userName,
       bool? isPresent,
       String? dateTime}) async {
-    AttendanceModel attendanceModel = AttendanceModel(
-        dateTime: dateTime,
-        id: userId,
-        isPresent: isPresent,
-        name: name,
-        rollNo: userName);
-    attendanceRef
-        .doc(userId)
-        .collection("attendance")
-        .doc(dateTime)
-        .set(attendanceModel.toMap());
+    AttendanceModel attendanceModel = AttendanceModel();
+    attendanceRef.doc(userId).collection("attendance").doc(dateTime).set({
+      "dateTime": dateTime,
+      "id": userId,
+      "isPresent": isPresent,
+      "name": name,
+      "rollNo": userName,
+      "timestamp": Timestamp.now()
+    });
     DocumentSnapshot attendanceModelSnapshot = await attendanceRef
         .doc(userId)
         .collection("attendance")
@@ -202,6 +200,13 @@ class DatabaseMethods {
 
   Future fetchCalenderDataFromFirebase() async {
     final QuerySnapshot calenderMeetings = await calenderRef.get();
+
+    return calenderMeetings;
+  }
+
+  Future fetchIndividualAttendanceDataFromFirebase() async {
+    final QuerySnapshot calenderMeetings =
+        await attendanceRef.doc(currentUser!.id).collection("attendance").get();
 
     return calenderMeetings;
   }
