@@ -227,7 +227,7 @@ class _LandingPageState extends State<LandingPage> {
             GestureDetector(
               onTap: () => Get.to(() => CommentsNChat(
                   chatId: currentUser!.id,
-                  isTeacherParent: false,
+                  isParent: false,
                   chatNotificationToken:
                       currentUser!.androidNotificationToken)),
               child: EditedNeuomprphicContainer(
@@ -331,15 +331,15 @@ class _LandingPageState extends State<LandingPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // GestureDetector(
-            //   onTap: () => Get.to(() => ChatLists()),
-            //   child: EditedNeuomprphicContainer(
-            //     text: "Chat Lists",
-            //     isIcon: true,
-            //     icon: Icons.chat_bubble_outline_outlined,
-            //     isLanding: true,
-            //   ),
-            // ),
+            GestureDetector(
+              onTap: () => Get.to(() => ChatLists(isTeacher: true,)),
+              child: EditedNeuomprphicContainer(
+                text: "Parent Chats",
+                isIcon: true,
+                icon: Icons.chat_bubble_outline_outlined,
+                isLanding: true,
+              ),
+            ),
             // GestureDetector(
             //   onTap: () => Get.to(() => ReferStudentPage()),
             //   child: EditedNeuomprphicContainer(
@@ -431,7 +431,7 @@ class _LandingPageState extends State<LandingPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetector(
-              onTap: () => Get.to(() => ChatLists()),
+              onTap: () => Get.to(() => ChatLists(isTeacher: false,)),
               child: EditedNeuomprphicContainer(
                 text: "Chat Lists",
                 isIcon: true,

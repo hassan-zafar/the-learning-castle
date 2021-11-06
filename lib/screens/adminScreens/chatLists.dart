@@ -8,6 +8,8 @@ import 'package:the_learning_castle_v2/screens/adminScreens/commentsNChat.dart';
 import 'package:the_learning_castle_v2/tools/loading.dart';
 
 class ChatLists extends StatefulWidget {
+  bool? isTeacher;
+  ChatLists({required this.isTeacher});
   @override
   _ChatListsState createState() => _ChatListsState();
 }
@@ -25,11 +27,16 @@ class _ChatListsState extends State<ChatLists> {
           title: Text("All Chats"),
         ),
         body: StreamBuilder<QuerySnapshot>(
-            stream: chatListRef
-                // .doc(currentUser!.id)
-                // .collection('chats')
-                .orderBy("timestamp", descending: true)
-                .snapshots(),
+            stream: widget.isTeacher!
+                ? chatListRef
+                    .where("isTeacherParent", isEqualTo: true)
+                    // .orderBy("timestamp", descending: true)
+                    .snapshots()
+                : chatListRef
+                    // .doc(currentUser!.id)
+                    // .collection('chats')
+                    .orderBy("timestamp", descending: true)
+                    .snapshots(),
             builder: (context, snapshots) {
               if (!snapshots.hasData) {
                 return LoadingIndicator();
@@ -65,7 +72,7 @@ class _ChatListsState extends State<ChatLists> {
                           MaterialPageRoute(
                               builder: (context) => CommentsNChat(
                                     chatId: chatHeads[index].userId,
-                                    isTeacherParent: !currentUser!.isAdmin! &&
+                                    isParent: !currentUser!.isAdmin! &&
                                             currentUser!.isTeacher!
                                         ? true
                                         : false,

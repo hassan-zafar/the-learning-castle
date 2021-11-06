@@ -180,8 +180,8 @@ class _StudentJournelState extends State<StudentJournel> {
           floatingActionButton: InkWell(
             onTap: () => Get.to(() => CommentsNChat(
                   chatId: widget.studentId,
-                  isTeacherParent:
-                      !currentUser!.isAdmin! && currentUser!.isTeacher!
+                  isParent:
+                      !currentUser!.isAdmin! && !currentUser!.isTeacher!
                           ? true
                           : false,
                   chatNotificationToken: currentUser!.androidNotificationToken,

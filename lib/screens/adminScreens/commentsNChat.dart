@@ -15,7 +15,7 @@ class CommentsNChat extends StatefulWidget {
   final String? chatId;
   // final String? postMediaUrl;
   final String? heroMsg;
-  final bool? isTeacherParent;
+  final bool? isParent;
   // final bool? isPostComment;
   // final bool? isProductComment;
   final String? chatNotificationToken;
@@ -25,7 +25,7 @@ class CommentsNChat extends StatefulWidget {
     // this.postMediaUrl,
     // this.postOwnerId,
     required this.chatId,
-    required this.isTeacherParent,
+    required this.isParent,
     this.heroMsg,
     // @required this.isPostComment,
     required this.chatNotificationToken,
@@ -76,13 +76,22 @@ class CommentsNChatState extends State<CommentsNChat> {
   buildChat() {
     print(widget.chatId);
     return StreamBuilder<QuerySnapshot>(
-      stream: chatRoomRef
-          .doc(isAdmin != null && isAdmin == true
-              ? widget.chatId
-              : currentUser!.id)
-          .collection(widget.isTeacherParent! ? "teacherParent" : "chats")
-          .orderBy("timestamp", descending: false)
-          .snapshots(),
+      stream: currentUser!.isTeacher!
+          ? chatRoomRef
+              .doc(currentUser!.isTeacher != null &&
+                      currentUser!.isTeacher == true
+                  ? widget.chatId
+                  : currentUser!.id)
+              .collection(widget.isParent! ? "teacherParent" : "chats")
+              .where("className", isEqualTo: currentUser!.className)
+              .snapshots()
+          : chatRoomRef
+              .doc(currentUser!.isAdmin != null && currentUser!.isAdmin == true
+                  ? widget.chatId
+                  : currentUser!.id)
+              .collection(widget.isParent! ? "teacherParent" : "chats")
+              .orderBy("timestamp", descending: false)
+              .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return LoadingIndicator();
@@ -102,13 +111,21 @@ class CommentsNChatState extends State<CommentsNChat> {
   addChatMessage() {
     String commentId = Uuid().v1();
     if (_commentNMessagesController.text.trim().length > 1) {
-      chatRoomRef
-          .doc(isAdmin != null && isAdmin == true
-              ? widget.chatId
-              : currentUser!.id)
-          .collection(widget.isTeacherParent! ? "teacherParent" : "chats")
-          .doc(commentId)
-          .set({
+      var tempRef = currentUser!.isTeacher!
+          ? chatRoomRef
+              .doc(currentUser!.isTeacher != null &&
+                      currentUser!.isTeacher == true
+                  ? widget.chatId
+                  : currentUser!.id)
+              .collection(widget.isParent! ? "teacherParent" : "chats")
+              .doc(commentId)
+          : chatRoomRef
+              .doc(currentUser!.isAdmin != null && currentUser!.isAdmin == true
+                  ? widget.chatId
+                  : currentUser!.id)
+              .collection(widget.isParent! ? "teacherParent" : "chats")
+              .doc(commentId);
+      tempRef.set({
         "userName": currentUser!.userName,
         "userId": currentUser!.id,
         "androidNotificationToken": currentUser!.androidNotificationToken,
@@ -116,12 +133,19 @@ class CommentsNChatState extends State<CommentsNChat> {
         "timestamp": DateTime.now(),
         "avatarUrl": currentUser!.photoUrl,
         "commentId": commentId,
+        "className": currentUser!.className,
       });
-      chatListRef.doc(isAdmin! ? widget.chatId : currentUser!.id).set({
+      chatListRef
+          .doc(currentUser!.isAdmin! || currentUser!.isTeacher!
+              ? widget.chatId
+              : currentUser!.id)
+          .set({
         "userName": currentUser!.userName,
         "userId": currentUser!.id,
         "comment": _commentNMessagesController.text,
         "timestamp": DateTime.now(),
+        "className": currentUser!.className,
+        "isTeacherParent": widget.isParent! ? true : false,
         "androidNotificationToken": widget.chatNotificationToken ??
             currentUser!.androidNotificationToken,
       });
@@ -160,10 +184,15 @@ class CommentsNChatState extends State<CommentsNChat> {
           centerTitle: true,
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: Text(
-            currentUser!.isAdmin! ? "Manage Queries" : "Contact Admin",
-            style: TextStyle(color: Colors.black),
-          ),
+          title: widget.isParent!
+              ? Text(
+                  "Contact Teacher",
+                  style: TextStyle(color: Colors.black),
+                )
+              : Text(
+                  currentUser!.isAdmin! ? "Manage Queries" : "Contact Admin",
+                  style: TextStyle(color: Colors.black),
+                ),
         ),
         body: Padding(
           padding: const EdgeInsets.only(bottom: 20.0),
