@@ -25,7 +25,7 @@ class _UserNSearchState extends State<UserNSearch>
   Future<QuerySnapshot>? searchResultsFuture;
   TextEditingController searchController = TextEditingController();
 
-  String typeSelected = currentUser!.isTeacher! ? "students" : 'users';
+  String typeSelected = currentUser!.isTeacher! ? "appointedStudents" : 'users';
   handleSearch(String query) {
     if (currentUser!.isAdmin!) {
       Future<QuerySnapshot> users =
@@ -139,6 +139,7 @@ class _UserNSearchState extends State<UserNSearch>
               List<UserResult> allAdmins = [];
               List<UserResult> allTeachers = [];
               List<UserResult> allStudents = [];
+              List<UserResult> allAppointedStudents = [];
 
               snapshot.data!.docs.forEach((doc) {
                 AppUserModel user = AppUserModel.fromDocument(doc);
@@ -154,9 +155,15 @@ class _UserNSearchState extends State<UserNSearch>
                 if (user.isTeacher!) {
                   UserResult teacherResult = UserResult(user);
                   allTeachers.add(teacherResult);
-                } else if (!user.isAdmin!) {
+                } else if (!user.isAdmin! && !user.isTeacher!) {
                   UserResult studentResult = UserResult(user);
                   allStudents.add(studentResult);
+                }
+                if (!user.isAdmin! &&
+                    !user.isTeacher! &&
+                    user.className == currentUser!.className!) {
+                  UserResult selectedStudentResult = UserResult(user);
+                  allAppointedStudents.add(selectedStudentResult);
                 }
               });
               return GlassContainer(
@@ -312,9 +319,14 @@ class _UserNSearchState extends State<UserNSearch>
                             children: allTeachers,
                           )
                         : Text(''),
-                    typeSelected == 'students' || currentUser!.isTeacher!
+                    typeSelected == 'students'
                         ? Column(
                             children: allStudents,
+                          )
+                        : Text(''),
+                    typeSelected == 'appointedStudents'
+                        ? Column(
+                            children: allAppointedStudents,
                           )
                         : Text(''),
                   ],

@@ -215,7 +215,13 @@ class _AttendancePageState extends State<AttendancePage> {
                               selectedStudentAttendance = allPresentStudents;
                             });
                           },
-                          child: Text("${allPresentStudents.length} Present"),
+                          child: GlassContainer(
+                              opacity: 0.6,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                    "${allPresentStudents.length} Present"),
+                              )),
                         ),
                         GestureDetector(
                           onTap: () {
@@ -224,7 +230,13 @@ class _AttendancePageState extends State<AttendancePage> {
                               selectedStudentAttendance = allAbsentStudents;
                             });
                           },
-                          child: Text("${allAbsentStudents.length} Absent"),
+                          child: GlassContainer(
+                              opacity: 0.6,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child:
+                                    Text("${allAbsentStudents.length} Absent"),
+                              )),
                         ),
                       ],
                     ),
