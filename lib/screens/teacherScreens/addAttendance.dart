@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:the_learning_castle_v2/config/colllections.dart';
+import 'package:the_learning_castle_v2/config/collections.dart';
 import 'package:the_learning_castle_v2/config/enums/studentAttendence.dart';
 import 'package:the_learning_castle_v2/constants.dart';
 import 'package:the_learning_castle_v2/database/database.dart';

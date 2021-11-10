@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:lottie/lottie.dart';
-import 'package:the_learning_castle_v2/config/colllections.dart';
+import 'package:the_learning_castle_v2/config/collections.dart';
 import 'package:the_learning_castle_v2/constants.dart';
 import 'package:the_learning_castle_v2/models/feeModel.dart';
 import 'package:the_learning_castle_v2/models/users.dart';

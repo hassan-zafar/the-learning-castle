@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
-import 'package:the_learning_castle_v2/config/colllections.dart';
+import 'package:the_learning_castle_v2/config/collections.dart';
 import 'package:the_learning_castle_v2/database/local_database.dart';
 import 'package:the_learning_castle_v2/models/users.dart';
 import 'package:the_learning_castle_v2/screens/adminScreens/commentsNChat.dart';

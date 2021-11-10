@@ -7,7 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
-import 'package:the_learning_castle_v2/config/colllections.dart';
+import 'package:the_learning_castle_v2/config/collections.dart';
 import 'package:the_learning_castle_v2/constants.dart';
 import 'package:the_learning_castle_v2/database/local_database.dart';
 import 'package:the_learning_castle_v2/models/users.dart';

@@ -4,7 +4,7 @@ import 'package:glassmorphism_ui/glassmorphism_ui.dart';
 import 'package:group_button/group_button.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:auto_size_text_pk/auto_size_text_pk.dart';
-import 'package:the_learning_castle_v2/config/colllections.dart';
+import 'package:the_learning_castle_v2/config/collections.dart';
 import 'package:the_learning_castle_v2/constants.dart';
 import 'package:the_learning_castle_v2/database/database.dart';
 import 'package:the_learning_castle_v2/models/studentJournelModel.dart';
