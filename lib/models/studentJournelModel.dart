@@ -11,7 +11,7 @@ class StudentJournelModel {
   final int? iNeed;
   final String? journelNotes;
   final String? sleepingTimeStr;
-  final TimeOfDay? sleepTIme;
+  final String? sleepTIme;
   StudentJournelModel(
       {this.happySlider,
       this.iWas,
@@ -30,7 +30,7 @@ class StudentJournelModel {
     int? iNeed,
     final String? sleepingTimeStr,
     String? journelNotes,
-    final TimeOfDay? sleepTIme,
+    final String? sleepTIme,
   }) {
     return StudentJournelModel(
       happySlider: happySlider ?? this.happySlider,
@@ -72,7 +72,7 @@ class StudentJournelModel {
   factory StudentJournelModel.fromDocument(DocumentSnapshot doc) {
     return StudentJournelModel(
       happySlider: doc['happySlider'],
-      iWas: doc['iWas'],
+      iWas: doc['iWas'].cast<int>(),
       iAte: doc['iAte'],
       diaperChange: doc['diaperChange'],
       iNeed: doc['iNeed'],

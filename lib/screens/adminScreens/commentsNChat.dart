@@ -184,7 +184,7 @@ class CommentsNChatState extends State<CommentsNChat> {
           centerTitle: true,
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: widget.isParent!
+          title: widget.isParent! || currentUser!.isTeacher!
               ? Text(
                   "Contact Teacher",
                   style: TextStyle(color: Colors.black),

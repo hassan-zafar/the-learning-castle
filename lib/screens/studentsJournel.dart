@@ -23,7 +23,7 @@ class StudentJournel extends StatefulWidget {
 
 class _StudentJournelState extends State<StudentJournel> {
   double? happySlider;
-  List<int>? iWas;
+  List<int>? iWas = [];
   int? iAte;
   int? diaperChange;
   int? iNeed;
@@ -68,16 +68,19 @@ class _StudentJournelState extends State<StudentJournel> {
     setState(() {
       _isLoading = true;
     });
+
     await studentJournelRef
         .doc(id)
         .collection("journelEntries")
-        .doc(selectedDate!.toIso8601String())
+        .doc('2021-11-16T17:08:27.008837'
+            // selectedDate!.toIso8601String()
+            )
         .get()
         .then((value) {
       print(value.exists);
+      print(value.data());
       if (value.exists) {
         DocumentSnapshot studentJournelDataSnapshot = value;
-
         StudentJournelModel studentJournelEntryTemp =
             StudentJournelModel.fromDocument(studentJournelDataSnapshot);
         setState(() {
@@ -85,6 +88,7 @@ class _StudentJournelState extends State<StudentJournel> {
         });
 
         print(studentJournelEntry);
+        print(studentJournelEntry!.iWas.runtimeType);
         setState(() {
           _isLoading = false;
         });
@@ -132,7 +136,9 @@ class _StudentJournelState extends State<StudentJournel> {
                             happySlider: happySlider,
                             iAte: iAte,
                             iNeed: iNeed,
-                            iWas: iWas,
+                            sleepTIme: sleepingTime!.format(context),
+                            sleepingTimeStr: _sleepTimeController.text,
+                            iWas: iWas!,
                             journelNotes: _notesController!.text);
                         DatabaseMethods()
                             .addStudentJournelEntryToFirebase(
@@ -180,10 +186,9 @@ class _StudentJournelState extends State<StudentJournel> {
           floatingActionButton: InkWell(
             onTap: () => Get.to(() => CommentsNChat(
                   chatId: widget.studentId,
-                  isParent:
-                      !currentUser!.isAdmin! && !currentUser!.isTeacher!
-                          ? true
-                          : false,
+                  isParent: !currentUser!.isAdmin! && !currentUser!.isTeacher!
+                      ? true
+                      : false,
                   chatNotificationToken: currentUser!.androidNotificationToken,
                 )),
             child: GlassContainer(
@@ -262,10 +267,8 @@ class _StudentJournelState extends State<StudentJournel> {
           child: GlassContainer(
             shadowStrength: 6,
             opacity: 0.3,
-            width: 100,
-            height: 100,
             child: Padding(
-              padding: EdgeInsets.fromLTRB(0, 2, 2, 2),
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -305,7 +308,7 @@ class _StudentJournelState extends State<StudentJournel> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'I was ',
+                    'I did ',
                     style: titleTextStyle(fontSize: 20),
                   ),
                 ),
@@ -318,6 +321,7 @@ class _StudentJournelState extends State<StudentJournel> {
                     unselectedColor: kUnselectedColor,
                     isRadio: false,
                     buttons: iWasList,
+                    
                     selectedButtons: studentJournelEntry != null
                         ? studentJournelEntry!.iWas
                         : null,
@@ -432,7 +436,7 @@ class _StudentJournelState extends State<StudentJournel> {
             shadowStrength: 6,
             opacity: 0.3,
             width: MediaQuery.of(context).size.width * 0.45,
-            height: 100,
+            height: 200,
             child: Column(
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -549,15 +553,18 @@ class _StudentJournelState extends State<StudentJournel> {
                                 });
                                 print(sleepingTime);
                               } else {
-                                setState(() {
-                                  this.sleepingTime =
-                                      studentJournelEntry!.sleepTIme;
-                                });
+                                // setState(() {
+                                //   this.sleepingTime =
+                                //       studentJournelEntry!.sleepTIme;
+                                // });
                               }
                             },
-                            child: Text(sleepingTime == null
-                                ? "Sleeping Time"
-                                : sleepingTime!.format(context)),
+                            child:
+                                currentUser!.isAdmin! || currentUser!.isTeacher!
+                                    ? Text(sleepingTime == null
+                                        ? "Sleeping Time"
+                                        : sleepingTime!.format(context))
+                                    : Text(studentJournelEntry!.sleepTIme!),
                           ),
                           Text("How Long:"),
                           currentUser!.isTeacher! ||
@@ -566,9 +573,14 @@ class _StudentJournelState extends State<StudentJournel> {
                               ? Expanded(
                                   child: TextField(
                                   controller: _sleepTimeController,
+                                  decoration:
+                                      InputDecoration(suffix: Text('min')),
                                   keyboardType: TextInputType.datetime,
                                 ))
-                              : Text(studentJournelEntry!.sleepingTimeStr!),
+                              : Text(
+                                  studentJournelEntry!.sleepingTimeStr! != null
+                                      ? studentJournelEntry!.sleepingTimeStr!
+                                      : ""),
                         ],
                       ),
                     )

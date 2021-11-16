@@ -43,7 +43,7 @@ class _ReferStudentPageState extends State<ReferStudentPage> {
     return Container(
       decoration: backgroundColorBoxDecoration(),
       child: Scaffold(
-        floatingActionButton: isAdmin!
+        floatingActionButton: !currentUser!.isAdmin! || currentUser!.isTeacher!
             ? FloatingActionButton(
                 onPressed: () => Get.to(() => AddReferStudent())!
                     .then((value) => getReferStudentPage()),
