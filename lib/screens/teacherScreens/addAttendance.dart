@@ -128,12 +128,14 @@ class _AttendancePageState extends State<AttendancePage> {
       //   allStudentsData.add(studentUserModel);
       // }
     });
-    setState(() {
-      selectedStudentAttendance = allAbsentStudents;
-      print(allAbsentStudents);
+    if (mounted) {
+      setState(() {
+        selectedStudentAttendance = allAbsentStudents;
+        print(allAbsentStudents);
 
-      _isLoading = false;
-    });
+        _isLoading = false;
+      });
+    }
   }
 
   @override

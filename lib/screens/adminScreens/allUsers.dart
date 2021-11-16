@@ -367,7 +367,8 @@ class UserResult extends StatelessWidget {
       child: Column(
         children: <Widget>[
           GestureDetector(
-            onLongPress: () => makeAdmin(context),
+            onLongPress: () =>
+                currentUser!.isAdmin! ? makeAdmin(context) : null,
             onTap: () {
               currentUser!.isAdmin!
                   ? Get.to(() => UserDetailsPage(

@@ -28,9 +28,9 @@ class StudentJournelModel {
     int? iAte,
     int? diaperChange,
     int? iNeed,
-    final String? sleepingTimeStr,
+     String? sleepingTimeStr,
     String? journelNotes,
-    final String? sleepTIme,
+    String? sleepTIme,
   }) {
     return StudentJournelModel(
       happySlider: happySlider ?? this.happySlider,

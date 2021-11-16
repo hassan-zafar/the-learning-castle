@@ -36,8 +36,9 @@ class _StudentIndividualAttendanceState
     });
     QuerySnapshot attendanceSnapShot =
         await DatabaseMethods().fetchIndividualAttendanceDataFromFirebase();
+    print(attendanceSnapShot.docs.isEmpty);
     List<AttendanceModel> allAttendances = [];
-    if (!attendanceSnapShot.docs.isEmpty) {
+    if (attendanceSnapShot.docs.isEmpty) {
       setState(() {
         _isLoading = false;
       });
@@ -45,6 +46,7 @@ class _StudentIndividualAttendanceState
       attendanceSnapShot.docs.forEach((e) {
         allAttendances.add(AttendanceModel.fromDocument(e));
       });
+      print(allAttendances);
       List<Attendance> asd = [];
       allAttendances.forEach((e) {
         asd.add(Attendance(

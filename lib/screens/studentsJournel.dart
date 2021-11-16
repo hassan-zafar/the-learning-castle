@@ -68,15 +68,10 @@ class _StudentJournelState extends State<StudentJournel> {
     setState(() {
       _isLoading = true;
     });
-
-    await studentJournelRef
-        .doc(id)
-        .collection("journelEntries")
-        .doc('2021-11-16T17:08:27.008837'
-            // selectedDate!.toIso8601String()
-            )
-        .get()
-        .then((value) {
+    print(selectedDate!.toIso8601String());
+    await studentJournelRef.doc(id).collection("journelEntries").doc(
+        // '2021-11-16T17:08:27.008837'
+        "${selectedDate.day}").get().then((value) {
       print(value.exists);
       print(value.data());
       if (value.exists) {
@@ -90,7 +85,9 @@ class _StudentJournelState extends State<StudentJournel> {
         print(studentJournelEntry);
         print(studentJournelEntry!.iWas.runtimeType);
         setState(() {
+          happySlider = studentJournelEntry!.happySlider!;
           _isLoading = false;
+          _DoesntExist = false;
         });
       } else {
         setState(() {
@@ -228,6 +225,7 @@ class _StudentJournelState extends State<StudentJournel> {
                                   _focusedDay = focusedDay;
                                   _isLoading = true;
                                 });
+                                print(_selectedDay);
                                 getJournelEntries(
                                     selectedDate: _selectedDay,
                                     id: currentUser!.id);
@@ -321,7 +319,6 @@ class _StudentJournelState extends State<StudentJournel> {
                     unselectedColor: kUnselectedColor,
                     isRadio: false,
                     buttons: iWasList,
-                    
                     selectedButtons: studentJournelEntry != null
                         ? studentJournelEntry!.iWas
                         : null,

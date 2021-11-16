@@ -46,10 +46,12 @@ class DatabaseMethods {
     print("addUserInfoToFirebase");
     final Map<String, dynamic> journelEntryInfoMap =
         json.decode(studentJournelModel.toJson());
+    print('have converted to map');
+    print(journelEntryInfoMap);
     return studentJournelRef
         .doc(studentId)
         .collection("journelEntries")
-        .doc(dateOfEntry.toIso8601String())
+        .doc(dateOfEntry.day.toString())
         .set(journelEntryInfoMap)
         .then((value) {})
         .catchError(
@@ -206,10 +208,10 @@ class DatabaseMethods {
   }
 
   Future fetchIndividualAttendanceDataFromFirebase() async {
-    final QuerySnapshot calenderMeetings =
+    final QuerySnapshot attendance =
         await attendanceRef.doc(currentUser!.id).collection("attendance").get();
 
-    return calenderMeetings;
+    return attendance;
   }
 
   Future fetchPostsDataFromFirebase() async {
