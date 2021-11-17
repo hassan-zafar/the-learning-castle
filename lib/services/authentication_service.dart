@@ -48,7 +48,7 @@ class AuthenticationService {
     }
   }
 
-  Future deleteUser(String email, String password) async {
+  Future deleteUser({required String email, required String password}) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
 
     try {

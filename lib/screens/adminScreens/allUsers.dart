@@ -435,7 +435,7 @@ class UserResult extends StatelessWidget {
               SimpleDialogOption(
                 onPressed: () {
                   Navigator.pop(context);
-                  deleteUser();
+                  deleteUser(user.email!, user.password!);
                 },
                 child: Text(
                   'Delete User',
@@ -472,8 +472,8 @@ class UserResult extends StatelessWidget {
     // });
   }
 
-  void deleteUser() async {
-    deleteUser();
+  void deleteUser(String email, String password) async {
+    AuthenticationService().deleteUser(email: email, password: password);
     BotToast.showText(text: 'User Deleted Refresh');
   }
 }
