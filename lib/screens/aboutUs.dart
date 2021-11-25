@@ -30,7 +30,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
               });
             },
           ),
-          _isLoading ? LoadingIndicator() : Container(),
+          _isLoading ? LoadingIndicator() : SizedBox(),
         ],
       ),
     ));
