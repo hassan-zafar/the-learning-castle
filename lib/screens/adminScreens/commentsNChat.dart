@@ -124,8 +124,7 @@ class CommentsNChatState extends State<CommentsNChat> {
                   ? widget.chatId
                   : currentUser!.id)
               .collection(widget.isParent! ? "teacherParent" : "chats")
-              .doc(commentId);
-      tempRef.set({
+              .doc(commentId).set({
         "userName": currentUser!.userName,
         "userId": currentUser!.id,
         "androidNotificationToken": currentUser!.androidNotificationToken,
