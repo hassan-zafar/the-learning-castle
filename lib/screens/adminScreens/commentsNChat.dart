@@ -72,7 +72,7 @@ class CommentsNChatState extends State<CommentsNChat> {
     }
     getAdmins();
   }
-
+//bla bla bal
   buildChat() {
     print(widget.chatId);
     return StreamBuilder<QuerySnapshot>(
